@@ -46,10 +46,10 @@ _None_
 
 ### Configuration
 
-| Key                                      | Required | Type      | Default                | Pattern | Min | Max | Description                                                                                                                                      |
-| ---------------------------------------- | -------- | --------- | ---------------------- | ------- | --- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `edc.iam.credential.status.check.period` |          | `integer` | `60`                   |         |     |     | Period (in seconds) at which the Watchdog thread checks all stored credentials for their status. Configuring a number <=0 disables the Watchdog. |
-| `edc.iam.credential.status.check.delay`  |          | `integer` | `random number [1..5]` |         |     |     | Initial delay (in seconds) before the Watchdog thread begins its work.                                                                           |
+| Key                                      | Required | Type     | Default | Pattern | Min | Max | Description |
+| ---------------------------------------- | -------- | -------- | ------- | ------- | --- | --- | ----------- |
+| `edc.iam.credential.status.check.period` | `*`      | `string` | `60`    |         |     |     |             |
+| `edc.iam.credential.status.check.delay`  |          | `string` | ``      |         |     |     |             |
 
 #### Provided services
 _None_
@@ -153,10 +153,10 @@ _None_
 
 ### Configuration
 
-| Key                                            | Required | Type      | Default  | Pattern | Min | Max | Description                                                                                  |
-| ---------------------------------------------- | -------- | --------- | -------- | ------- | --- | --- | -------------------------------------------------------------------------------------------- |
-| `edc.iam.credential.revocation.cache.validity` |          | `long`    | `900000` |         |     |     | Validity period of cached StatusList2021 credential entries in milliseconds.                 |
-| `edc.iam.accesstoken.jti.validation`           |          | `boolean` | `false`  |         |     |     | Activates the JTI check: access tokens can only be used once to guard against replay attacks |
+| Key                                            | Required | Type     | Default  | Pattern | Min | Max | Description |
+| ---------------------------------------------- | -------- | -------- | -------- | ------- | --- | --- | ----------- |
+| `edc.iam.accesstoken.jti.validation`           | `*`      | `string` | `false`  |         |     |     |             |
+| `edc.iam.credential.revocation.cache.validity` | `*`      | `string` | `900000` |         |     |     |             |
 
 #### Provided services
 - `org.eclipse.edc.identityhub.spi.store.CredentialStore`
@@ -191,10 +191,9 @@ _None_
 
 ### Configuration
 
-| Key                                    | Required | Type     | Default   | Pattern | Min | Max | Description                                  |
-| -------------------------------------- | -------- | -------- | --------- | ------- | --- | --- | -------------------------------------------- |
-| ~~edc.datasource.credentials.name~~    |          | `string` | `default` |         |     |     | Datasource name for the DidResource database |
-| `edc.sql.store.credentials.datasource` |          | `string` | `default` |         |     |     | The datasource to be used                    |
+| Key                                    | Required | Type     | Default   | Pattern | Min | Max | Description |
+| -------------------------------------- | -------- | -------- | --------- | ------- | --- | --- | ----------- |
+| `edc.sql.store.credentials.datasource` | `*`      | `string` | `default` |         |     |     |             |
 
 #### Provided services
 - `org.eclipse.edc.identityhub.spi.store.CredentialStore`
@@ -268,10 +267,9 @@ _None_
 
 ### Configuration
 
-| Key                                    | Required | Type     | Default   | Pattern | Min | Max | Description                                  |
-| -------------------------------------- | -------- | -------- | --------- | ------- | --- | --- | -------------------------------------------- |
-| ~~edc.datasource.didresource.name~~    |          | `string` | `default` |         |     |     | Datasource name for the DidResource database |
-| `edc.sql.store.didresource.datasource` |          | `string` | `default` |         |     |     | The datasource to be used                    |
+| Key                                    | Required | Type     | Default   | Pattern | Min | Max | Description |
+| -------------------------------------- | -------- | -------- | --------- | ------- | --- | --- | ----------- |
+| `edc.sql.store.didresource.datasource` | `*`      | `string` | `default` |         |     |     |             |
 
 #### Provided services
 - `org.eclipse.edc.identithub.spi.did.store.DidResourceStore`
@@ -302,10 +300,9 @@ _None_
 
 ### Configuration
 
-| Key                                | Required | Type     | Default   | Pattern | Min | Max | Description                                      |
-| ---------------------------------- | -------- | -------- | --------- | ------- | --- | --- | ------------------------------------------------ |
-| ~~edc.datasource.keypair.name~~    |          | `string` | `default` |         |     |     | Datasource name for the KeyPairResource database |
-| `edc.sql.store.keypair.datasource` |          | `string` | `default` |         |     |     | The datasource to be used                        |
+| Key                                | Required | Type     | Default   | Pattern | Min | Max | Description |
+| ---------------------------------- | -------- | -------- | --------- | ------- | --- | --- | ----------- |
+| `edc.sql.store.keypair.datasource` | `*`      | `string` | `default` |         |     |     |             |
 
 #### Provided services
 - `org.eclipse.edc.identityhub.spi.store.KeyPairResourceStore`
@@ -366,10 +363,9 @@ _None_
 
 ### Configuration
 
-| Key                                           | Required | Type     | Default   | Pattern | Min | Max | Description                                         |
-| --------------------------------------------- | -------- | -------- | --------- | ------- | --- | --- | --------------------------------------------------- |
-| ~~edc.datasource.participantcontext.name~~    |          | `string` | `default` |         |     |     | Datasource name for the ParticipantContext database |
-| `edc.sql.store.participantcontext.datasource` |          | `string` | `default` |         |     |     | The datasource to be used                           |
+| Key                                           | Required | Type     | Default   | Pattern | Min | Max | Description               |
+| --------------------------------------------- | -------- | -------- | --------- | ------- | --- | --- | ------------------------- |
+| `edc.sql.store.participantcontext.datasource` | `*`      | `string` | `default` |         |     |     | The datasource to be used |
 
 #### Provided services
 - `org.eclipse.edc.identityhub.spi.store.ParticipantContextStore`
@@ -392,24 +388,6 @@ Module `identity-hub-participants`
 _None_
 
 ### Extensions
-#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
-**Name:** "ParticipantContext Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.identithub.spi.did.DidDocumentService` (required)
-- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
-- `java.time.Clock` (required)
-- `org.eclipse.edc.spi.event.EventRouter` (required)
-- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
-
 #### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextExtension`
 **Name:** "ParticipantContext Extension"
 
@@ -431,6 +409,24 @@ _None_
 - `org.eclipse.edc.spi.event.EventRouter` (required)
 - `org.eclipse.edc.identithub.spi.did.store.DidResourceStore` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.StsAccountProvisioner` (required)
+
+#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
+**Name:** "ParticipantContext Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.identithub.spi.did.DidDocumentService` (required)
+- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
+- `java.time.Clock` (required)
+- `org.eclipse.edc.spi.event.EventRouter` (required)
+- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
 
 Module `identityhub-api-authentication`
 ---------------------------------------
@@ -670,11 +666,11 @@ _None_
 
 ### Configuration
 
-| Key                                      | Required | Type     | Default     | Pattern | Min | Max | Description                                                                                    |
-| ---------------------------------------- | -------- | -------- | ----------- | ------- | --- | --- | ---------------------------------------------------------------------------------------------- |
-| `edc.sts.accounts.api.auth.header.name`  |          | `string` | `x-api-key` |         |     |     | The name of the Auth header to use. Could be 'Authorization', some custom auth header, etc.    |
-| `edc.sts.accounts.api.auth.header.value` |          | `string` | ``          |         |     |     | The value of the Auth header to use. Currently we only support static values, e.g. tokens etc. |
-| `edc.sts.account.api.url`                |          | `string` | ``          |         |     |     | The base URL of the remote STS Accounts API                                                    |
+| Key                                      | Required | Type     | Default     | Pattern | Min | Max | Description |
+| ---------------------------------------- | -------- | -------- | ----------- | ------- | --- | --- | ----------- |
+| `edc.sts.account.api.url`                | `*`      | `string` | ``          |         |     |     |             |
+| `edc.sts.accounts.api.auth.header.name`  | `*`      | `string` | `x-api-key` |         |     |     |             |
+| `edc.sts.accounts.api.auth.header.value` | `*`      | `string` | ``          |         |     |     |             |
 
 #### Provided services
 - `org.eclipse.edc.identityhub.spi.participantcontext.StsAccountService`
