@@ -53,6 +53,31 @@ _None_
 #### Referenced (injected) services
 - `org.eclipse.edc.web.spi.WebService` (required)
 
+Module `credential-definition-api`
+----------------------------------
+**Artifact:** org.eclipse.edc:credential-definition-api:0.12.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.issuerservice.api.admin.credentialdefinition.IssuerCredentialDefinitionAdminApiExtension`
+**Name:** "Issuer Service Credential Definition Admin API Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.web.spi.WebService` (required)
+- `org.eclipse.edc.issuerservice.spi.credentialdefinition.CredentialDefinitionService` (required)
+
 Module `credential-watchdog`
 ----------------------------
 **Artifact:** org.eclipse.edc:credential-watchdog:0.12.0-SNAPSHOT
@@ -303,20 +328,6 @@ Module `identity-hub-did`
 _None_
 
 ### Extensions
-#### Class: `org.eclipse.edc.identityhub.did.defaults.DidDefaultServicesExtension`
-**Name:** "DID Default Services Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-- `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore`
-
-#### Referenced (injected) services
-- `org.eclipse.edc.spi.query.CriterionOperatorRegistry` (required)
-
 #### Class: `org.eclipse.edc.identityhub.did.DidServicesExtension`
 **Name:** "DID Service Extension"
 
@@ -335,6 +346,20 @@ _None_
 - `org.eclipse.edc.spi.event.EventRouter` (required)
 - `org.eclipse.edc.keys.spi.KeyParserRegistry` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.store.ParticipantContextStore` (required)
+
+#### Class: `org.eclipse.edc.identityhub.did.defaults.DidDefaultServicesExtension`
+**Name:** "DID Default Services Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+- `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore`
+
+#### Referenced (injected) services
+- `org.eclipse.edc.spi.query.CriterionOperatorRegistry` (required)
 
 Module `identity-hub-did-store-sql`
 -----------------------------------
@@ -475,6 +500,24 @@ Module `identity-hub-participants`
 _None_
 
 ### Extensions
+#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
+**Name:** "ParticipantContext Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.identityhub.spi.did.DidDocumentService` (required)
+- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
+- `java.time.Clock` (required)
+- `org.eclipse.edc.spi.event.EventRouter` (required)
+- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
+
 #### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextExtension`
 **Name:** "ParticipantContext Extension"
 
@@ -495,24 +538,6 @@ _None_
 - `org.eclipse.edc.spi.event.EventRouter` (required)
 - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.StsAccountProvisioner` (required)
-
-#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
-**Name:** "ParticipantContext Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.identityhub.spi.did.DidDocumentService` (required)
-- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
-- `java.time.Clock` (required)
-- `org.eclipse.edc.spi.event.EventRouter` (required)
-- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
 
 Module `identityhub-api-authentication`
 ---------------------------------------
@@ -615,9 +640,71 @@ _None_
 
 #### Provided services
 - `org.eclipse.edc.issuerservice.spi.participant.store.ParticipantStore`
+- `org.eclipse.edc.identityhub.spi.issuance.credentials.attestation.AttestationDefinitionStore`
+- `org.eclipse.edc.issuerservice.spi.credentialdefinition.store.CredentialDefinitionStore`
 
 #### Referenced (injected) services
 _None_
+
+Module `issuerservice-credential-definition-store-sql`
+------------------------------------------------------
+**Artifact:** org.eclipse.edc:issuerservice-credential-definition-store-sql:0.12.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.issuerservice.store.sql.credentialdefinition.SqlCredentialDefinitionStoreExtension`
+**Name:** "IssuerService Credential definition SQL Store Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration
+
+| Key                                              | Required | Type     | Default   | Pattern | Min | Max | Description               |
+| ------------------------------------------------ | -------- | -------- | --------- | ------- | --- | --- | ------------------------- |
+| `edc.sql.store.credentialdefinitions.datasource` | `*`      | `string` | `default` |         |     |     | The datasource to be used |
+
+#### Provided services
+- `org.eclipse.edc.issuerservice.spi.credentialdefinition.store.CredentialDefinitionStore`
+
+#### Referenced (injected) services
+- `org.eclipse.edc.transaction.datasource.spi.DataSourceRegistry` (required)
+- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
+- `org.eclipse.edc.spi.types.TypeManager` (required)
+- `org.eclipse.edc.sql.QueryExecutor` (required)
+- `org.eclipse.edc.issuerservice.store.sql.credentialdefinition.CredentialDefinitionStoreStatements` (optional)
+- `org.eclipse.edc.sql.bootstrapper.SqlSchemaBootstrapper` (required)
+- `java.time.Clock` (required)
+
+Module `issuerservice-credential-definitions`
+---------------------------------------------
+**Artifact:** org.eclipse.edc:issuerservice-credential-definitions:0.12.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.issuerservice.credentialdefinition.CredentialDefinitionServiceExtension`
+**Name:** "IssuerService Credential Definition Service Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+- `org.eclipse.edc.issuerservice.spi.credentialdefinition.CredentialDefinitionService`
+
+#### Referenced (injected) services
+- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
+- `org.eclipse.edc.issuerservice.spi.credentialdefinition.store.CredentialDefinitionStore` (required)
+- `org.eclipse.edc.identityhub.spi.issuance.credentials.attestation.AttestationDefinitionStore` (required)
 
 Module `issuerservice-credentials`
 ----------------------------------
