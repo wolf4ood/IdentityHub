@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 Metaform Systems, Inc.
+ *  Copyright (c) 2025 Cofinity-X
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Apache License, Version 2.0 which is available at
@@ -8,11 +8,11 @@
  *  SPDX-License-Identifier: Apache-2.0
  *
  *  Contributors:
- *       Metaform Systems, Inc. - initial API and implementation
+ *       Cofinity-X - initial API and implementation
  *
  */
 
-package org.eclipse.edc.identityhub.tests.fixtures;
+package org.eclipse.edc.identityhub.tests.fixtures.credentialservice;
 
 import com.nimbusds.jose.jwk.Curve;
 import org.eclipse.edc.iam.did.spi.document.DidDocument;
@@ -38,11 +38,14 @@ import org.eclipse.edc.identityhub.spi.participantcontext.store.ParticipantConte
 import org.eclipse.edc.identityhub.spi.verifiablecredentials.model.VcStatus;
 import org.eclipse.edc.identityhub.spi.verifiablecredentials.model.VerifiableCredentialResource;
 import org.eclipse.edc.identityhub.spi.verifiablecredentials.store.CredentialStore;
+import org.eclipse.edc.identityhub.tests.fixtures.common.CommonTestContext;
+import org.eclipse.edc.identityhub.tests.fixtures.common.Endpoint;
 import org.eclipse.edc.junit.extensions.EmbeddedRuntime;
 import org.eclipse.edc.spi.EdcException;
 import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.spi.security.Vault;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -51,18 +54,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.lang.String.format;
+
 /**
  * Identity Hub end to end context used in tests extended with {@link IdentityHubEndToEndExtension}
  */
-public class IdentityHubEndToEndTestContext {
+public class IdentityHubEndToEndTestContext extends CommonTestContext {
 
     public static final String SUPER_USER = "super-user";
 
-    private final EmbeddedRuntime runtime;
     private final IdentityHubRuntimeConfiguration configuration;
 
     public IdentityHubEndToEndTestContext(EmbeddedRuntime runtime, IdentityHubRuntimeConfiguration configuration) {
-        this.runtime = runtime;
+        super(runtime);
         this.configuration = configuration;
     }
 
@@ -70,34 +74,6 @@ public class IdentityHubEndToEndTestContext {
         return runtime;
     }
 
-    public String createParticipant(String participantContextId) {
-        return createParticipant(participantContextId, List.of());
-    }
-
-    public String createParticipant(String participantContextId, List<String> roles, boolean isActive) {
-        var manifest = ParticipantManifest.Builder.newInstance()
-                .participantId(participantContextId)
-                .active(isActive)
-                .roles(roles)
-                .serviceEndpoint(new Service("test-service-id", "test-type", "http://foo.bar.com"))
-                .did("did:web:" + participantContextId)
-                .key(KeyDescriptor.Builder.newInstance()
-                        .privateKeyAlias(participantContextId + "-alias")
-                        .resourceId(participantContextId + "-resource")
-                        .keyId(participantContextId + "-key")
-                        .keyGeneratorParams(Map.of("algorithm", "EC", "curve", "secp256r1"))
-                        .build())
-                .build();
-        var srv = runtime.getService(ParticipantContextService.class);
-        return srv.createParticipantContext(manifest)
-                .orElseThrow(f -> new EdcException(f.getFailureDetail()))
-                .apiKey();
-    }
-
-
-    public String createParticipant(String participantContextId, List<String> roles) {
-        return createParticipant(participantContextId, roles, true);
-    }
 
     public VerifiableCredential createCredential() {
         return VerifiableCredential.Builder.newInstance()
@@ -127,6 +103,12 @@ public class IdentityHubEndToEndTestContext {
         return createParticipant(SUPER_USER, List.of(ServicePrincipal.ROLE_ADMIN));
     }
 
+    @Override
+    protected Service createServiceEndpoint(String participantContextId) {
+        var credentialServiceEndpoint = format("%s/%s", configuration.getStorageEndpoint().getUrl(), storageApiBasePath(participantContextId));
+        return new Service("credential-service-id", "CredentialService", credentialServiceEndpoint);
+    }
+
     public String storeParticipant(ParticipantContext pc) {
         var store = runtime.getService(ParticipantContextStore.class);
 
@@ -137,15 +119,15 @@ public class IdentityHubEndToEndTestContext {
         return token;
     }
 
-    public IdentityHubRuntimeConfiguration.Endpoint getIdentityApiEndpoint() {
+    public Endpoint getIdentityApiEndpoint() {
         return configuration.getIdentityApiEndpoint();
     }
 
-    public IdentityHubRuntimeConfiguration.Endpoint getPresentationEndpoint() {
+    public Endpoint getPresentationEndpoint() {
         return configuration.getPresentationEndpoint();
     }
 
-    public IdentityHubRuntimeConfiguration.Endpoint getStorageEndpoint() {
+    public Endpoint getStorageEndpoint() {
         return configuration.getStorageEndpoint();
     }
 
@@ -220,5 +202,12 @@ public class IdentityHubEndToEndTestContext {
         return runtime.getService(DidDocumentService.class).findById(did);
     }
 
+    public String didFor(String participantContextId) {
+        return configuration.didFor(participantContextId);
+    }
+
+    private @NotNull String storageApiBasePath(String participantContextId) {
+        return "v1alpha/participants/%s".formatted(base64Encode(participantContextId));
+    }
 
 }

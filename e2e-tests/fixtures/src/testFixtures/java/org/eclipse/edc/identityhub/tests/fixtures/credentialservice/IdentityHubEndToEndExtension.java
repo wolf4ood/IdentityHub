@@ -12,8 +12,9 @@
  *
  */
 
-package org.eclipse.edc.identityhub.tests.fixtures;
+package org.eclipse.edc.identityhub.tests.fixtures.credentialservice;
 
+import org.eclipse.edc.identityhub.tests.fixtures.PostgresSqlService;
 import org.eclipse.edc.junit.extensions.EmbeddedRuntime;
 import org.eclipse.edc.junit.extensions.RuntimePerClassExtension;
 import org.eclipse.edc.sql.testfixtures.PostgresqlEndToEndInstance;
@@ -28,14 +29,14 @@ import static org.eclipse.edc.identityhub.tests.fixtures.PostgresSqlService.jdbc
 import static org.eclipse.edc.util.io.Ports.getFreePort;
 
 /**
- * Base extension of {@link RuntimePerClassExtension} that injects the {@link IssuerServiceEndToEndTestContext}
+ * Base extension of {@link RuntimePerClassExtension} that injects the {@link IdentityHubEndToEndTestContext}
  * when required.
  */
-public abstract class IssuerServiceEndToEndExtension extends RuntimePerClassExtension {
+public abstract class IdentityHubEndToEndExtension extends RuntimePerClassExtension {
 
-    private final IssuerServiceEndToEndTestContext context;
+    private final IdentityHubEndToEndTestContext context;
 
-    protected IssuerServiceEndToEndExtension(IssuerServiceEndToEndTestContext context) {
+    protected IdentityHubEndToEndExtension(IdentityHubEndToEndTestContext context) {
         super(context.getRuntime());
         this.context = context;
     }
@@ -43,7 +44,7 @@ public abstract class IssuerServiceEndToEndExtension extends RuntimePerClassExte
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         var type = parameterContext.getParameter().getParameterizedType();
-        if (type.equals(IssuerServiceEndToEndTestContext.class)) {
+        if (type.equals(IdentityHubEndToEndTestContext.class)) {
             return true;
         }
         return super.supportsParameter(parameterContext, extensionContext);
@@ -52,72 +53,72 @@ public abstract class IssuerServiceEndToEndExtension extends RuntimePerClassExte
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         var type = parameterContext.getParameter().getParameterizedType();
-        if (type.equals(IssuerServiceEndToEndTestContext.class)) {
+        if (type.equals(IdentityHubEndToEndTestContext.class)) {
             return context;
         }
         return super.resolveParameter(parameterContext, extensionContext);
     }
 
     /**
-     * In-Memory variant of {@link IssuerServiceEndToEndExtension}
+     * In-Memory variant of {@link IdentityHubEndToEndExtension}
      */
-    public static class InMemory extends IssuerServiceEndToEndExtension {
+    public static class InMemory extends IdentityHubEndToEndExtension {
 
         public InMemory() {
             super(context());
         }
 
-        public static IssuerServiceEndToEndTestContext context() {
-            var configuration = IssuerServiceRuntimeConfiguration.Builder.newInstance()
-                    .name("issuerservice")
-                    .id("issuerservice")
+        public static IdentityHubEndToEndTestContext context() {
+            var configuration = IdentityHubRuntimeConfiguration.Builder.newInstance()
+                    .name("identity-hub")
+                    .id("identity-hub")
                     .build();
 
             var runtime = new EmbeddedRuntime(
-                    "issuerservice",
+                    "identity-hub",
                     configuration.config(),
-                    ":dist:bom:issuerservice-with-sts-bom"
+                    ":dist:bom:identityhub-with-sts-bom"
             );
 
-            return new IssuerServiceEndToEndTestContext(runtime, configuration);
+            return new IdentityHubEndToEndTestContext(runtime, configuration);
         }
 
     }
 
     /**
-     * PG variant of {@link IssuerServiceEndToEndExtension}
+     * PG variant of {@link IdentityHubEndToEndExtension}
      */
-    public static class Postgres extends IssuerServiceEndToEndExtension {
+    public static class Postgres extends IdentityHubEndToEndExtension {
 
-        private static final String DB_NAME = "issuerservice";
+        private static final String DB_NAME = "runtime";
         private static final Integer DB_PORT = getFreePort();
         private final PostgresSqlService postgresSqlService;
 
-        public Postgres() {
+        protected Postgres() {
             super(context(DB_NAME, DB_PORT));
             postgresSqlService = new PostgresSqlService(DB_NAME, DB_PORT);
 
         }
 
-        public static IssuerServiceEndToEndTestContext context(String dbName, Integer port) {
+        public static IdentityHubEndToEndTestContext context(String dbName, Integer port) {
 
-            var configuration = IssuerServiceRuntimeConfiguration.Builder.newInstance()
-                    .name("issuerservice")
-                    .id("issuerservice")
+            var configuration = IdentityHubRuntimeConfiguration.Builder.newInstance()
+                    .name("identity-hub")
+                    .id("identity-hub")
                     .build();
 
             var cfg = new HashMap<>(configuration.config());
             cfg.putAll(postgresqlConfiguration(dbName, port));
 
             var runtime = new EmbeddedRuntime(
-                    "issuerservice-pg",
+                    "identityhub-pg",
                     cfg,
-                    ":dist:bom:issuerservice-with-sts-bom",
-                    ":dist:bom:issuerservice-feature-sql-bom"
+                    ":dist:bom:identityhub-with-sts-bom",
+                    ":dist:bom:identityhub-feature-sql-bom"
 
             );
 
-            return new IssuerServiceEndToEndTestContext(runtime, configuration);
+            return new IdentityHubEndToEndTestContext(runtime, configuration);
         }
 
         private static Map<String, String> postgresqlConfiguration(String dbName, Integer port) {

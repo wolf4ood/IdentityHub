@@ -12,22 +12,22 @@
  *
  */
 
-package org.eclipse.edc.identityhub.tests.fixtures;
+package org.eclipse.edc.identityhub.tests.fixtures.issuerservice;
 
-import io.restassured.specification.RequestSpecification;
+import org.eclipse.edc.identityhub.tests.fixtures.common.CommonRuntimeConfiguration;
+import org.eclipse.edc.identityhub.tests.fixtures.common.Endpoint;
 
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
 import static org.eclipse.edc.boot.BootServicesExtension.PARTICIPANT_ID;
 import static org.eclipse.edc.util.io.Ports.getFreePort;
 
 /**
  * The IssuerServiceRuntimeConfiguration class represents an IssuerService Runtime configuration and provides various information, such as API endpoints
  */
-public class IssuerServiceRuntimeConfiguration {
+public class IssuerServiceRuntimeConfiguration extends CommonRuntimeConfiguration {
 
     private Endpoint adminEndpoint;
     private Endpoint issuerApiEndpoint;
@@ -42,7 +42,11 @@ public class IssuerServiceRuntimeConfiguration {
         return issuerApiEndpoint;
     }
 
+
     public Map<String, String> config() {
+        var did = didFor("issuer");
+        var publicKeyId = did + "#issuer-key";
+
         return new HashMap<>() {
             {
                 put(PARTICIPANT_ID, id);
@@ -55,16 +59,17 @@ public class IssuerServiceRuntimeConfiguration {
                 put("web.http.issuance.path", issuerApiEndpoint.getUrl().getPath());
                 put("web.http.version.port", String.valueOf(getFreePort()));
                 put("web.http.version.path", "/.well-known/api");
-                put("web.http.did.port", String.valueOf(getFreePort()));
-                put("web.http.did.path", "/");
+                put("web.http.did.port", String.valueOf(didEndpoint.getUrl().getPort()));
+                put("web.http.did.path", didEndpoint.getUrl().getPath());
                 put("edc.sql.schema.autocreate", "true");
                 put("edc.sts.account.api.url", "http://sts.com/accounts");
                 put("edc.sts.accounts.api.auth.header.value", "password");
                 put("edc.iam.accesstoken.jti.validation", String.valueOf(false));
                 put("edc.issuer.statuslist.signing.key.alias", "signing-key");
                 // config for the embedded STS
-                put("edc.iam.sts.publickey.id", "test-public-key");
+                put("edc.iam.sts.publickey.id", publicKeyId);
                 put("edc.iam.sts.privatekey.alias", "issuer-alias");
+                put("edc.iam.did.web.use.https", "false");
             }
         };
     }
@@ -94,25 +99,9 @@ public class IssuerServiceRuntimeConfiguration {
         public IssuerServiceRuntimeConfiguration build() {
             participant.adminEndpoint = new Endpoint(URI.create("http://localhost:" + getFreePort() + "/api/admin"), Map.of());
             participant.issuerApiEndpoint = new Endpoint(URI.create("http://localhost:" + getFreePort() + "/api/issuance"), Map.of());
+            participant.didEndpoint = new Endpoint(URI.create("http://localhost:" + getFreePort() + "/"), Map.of());
             return participant;
         }
     }
 
-    public static class Endpoint {
-        private final URI url;
-        private final Map<String, String> headers;
-
-        public Endpoint(URI url, Map<String, String> headers) {
-            this.url = url;
-            this.headers = headers;
-        }
-
-        public RequestSpecification baseRequest() {
-            return given().baseUri(this.url.toString()).headers(this.headers);
-        }
-
-        public URI getUrl() {
-            return this.url;
-        }
-    }
 }

@@ -16,6 +16,7 @@ package org.eclipse.edc.identityhub.protocols.dcp.transform.from;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonBuilderFactory;
 import jakarta.json.JsonObject;
 import org.eclipse.edc.identityhub.protocols.dcp.spi.model.CredentialRequestMessage;
 import org.eclipse.edc.jsonld.spi.JsonLdKeywords;
@@ -26,6 +27,8 @@ import org.eclipse.edc.transform.spi.TransformerContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 import static org.eclipse.edc.identityhub.protocols.dcp.spi.model.CredentialRequestMessage.CREDENTIAL_REQUEST_MESSAGE_CREDENTIALS_TERM;
 import static org.eclipse.edc.identityhub.protocols.dcp.spi.model.CredentialRequestMessage.CREDENTIAL_REQUEST_MESSAGE_HOLDER_PID_TERM;
 import static org.eclipse.edc.identityhub.protocols.dcp.spi.model.CredentialRequestMessage.CREDENTIAL_REQUEST_MESSAGE_TERM;
@@ -35,11 +38,13 @@ public class JsonObjectFromCredentialRequestMessageTransformer extends AbstractN
 
     private final TypeManager typeManager;
     private final String typeContext;
+    private final JsonBuilderFactory factory;
 
     public JsonObjectFromCredentialRequestMessageTransformer(TypeManager typeManager, String typeContext, JsonLdNamespace namespace) {
         super(CredentialRequestMessage.class, JsonObject.class, namespace);
         this.typeManager = typeManager;
         this.typeContext = typeContext;
+        factory = Json.createBuilderFactory(Map.of());
     }
 
     @Override
@@ -54,7 +59,7 @@ public class JsonObjectFromCredentialRequestMessageTransformer extends AbstractN
         return Json.createObjectBuilder()
                 .add(TYPE, forNamespace(CREDENTIAL_REQUEST_MESSAGE_TERM))
                 .add(forNamespace(CREDENTIAL_REQUEST_MESSAGE_CREDENTIALS_TERM), jsonCredentials)
-                .add(forNamespace(CREDENTIAL_REQUEST_MESSAGE_HOLDER_PID_TERM), credentialRequestMessage.getHolderPid())
+                .add(forNamespace(CREDENTIAL_REQUEST_MESSAGE_HOLDER_PID_TERM), createId(factory, credentialRequestMessage.getHolderPid()))
                 .build();
     }
 

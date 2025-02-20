@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ *  Copyright (c) 2025 Cofinity-X
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Apache License, Version 2.0 which is available at
@@ -8,26 +8,26 @@
  *  SPDX-License-Identifier: Apache-2.0
  *
  *  Contributors:
- *       Bayerische Motoren Werke Aktiengesellschaft (BMW AG) - initial API and implementation
+ *       Cofinity-X - initial API and implementation
  *
  */
 
-package org.eclipse.edc.identityhub.tests.fixtures;
+package org.eclipse.edc.identityhub.tests.fixtures.credentialservice;
 
-import io.restassured.specification.RequestSpecification;
+import org.eclipse.edc.identityhub.tests.fixtures.common.CommonRuntimeConfiguration;
+import org.eclipse.edc.identityhub.tests.fixtures.common.Endpoint;
 
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
 import static org.eclipse.edc.boot.BootServicesExtension.PARTICIPANT_ID;
 import static org.eclipse.edc.util.io.Ports.getFreePort;
 
 /**
  * The IdentityHubRuntimeConfiguration class represents an IdentityHub Runtime configuration and provides various information, such as API endpoints
  */
-public class IdentityHubRuntimeConfiguration {
+public class IdentityHubRuntimeConfiguration extends CommonRuntimeConfiguration {
 
     private Endpoint presentationEndpoint;
     private Endpoint identityEndpoint;
@@ -40,6 +40,8 @@ public class IdentityHubRuntimeConfiguration {
     }
 
     public Map<String, String> config() {
+        var did = didFor("user1");
+        var publicKeyId = did + "#user1-key";
         return new HashMap<>() {
             {
                 put(PARTICIPANT_ID, id);
@@ -55,12 +57,15 @@ public class IdentityHubRuntimeConfiguration {
                 put("web.http.sts.path", "/api/sts");
                 put("web.http.accounts.port", String.valueOf(getFreePort()));
                 put("web.http.accounts.path", "/api/accounts");
+                put("web.http.did.port", String.valueOf(didEndpoint.getUrl().getPort()));
+                put("web.http.did.path", didEndpoint.getUrl().getPath());
                 put("edc.runtime.id", name);
-                put("edc.ih.iam.id", "did:web:consumer");
+                put("edc.ih.iam.id", did);
                 put("edc.sql.schema.autocreate", "true");
                 put("edc.iam.accesstoken.jti.validation", String.valueOf(true));
-                put("edc.iam.sts.publickey.id", "test-public-key");
+                put("edc.iam.sts.publickey.id", publicKeyId);
                 put("edc.iam.sts.privatekey.alias", "user1-alias"); //this must be "username"-alias
+                put("edc.iam.did.web.use.https", "false");
             }
         };
     }
@@ -98,25 +103,9 @@ public class IdentityHubRuntimeConfiguration {
             participant.presentationEndpoint = new Endpoint(URI.create("http://localhost:" + getFreePort() + "/api/presentation"), Map.of());
             participant.identityEndpoint = new Endpoint(URI.create("http://localhost:" + getFreePort() + "/api/identity"), Map.of());
             participant.storageEndpoint = new Endpoint(URI.create("http://localhost:" + getFreePort() + "/api/storage"), Map.of());
+            participant.didEndpoint = new Endpoint(URI.create("http://localhost:" + getFreePort() + "/"), Map.of());
             return participant;
         }
     }
 
-    public static class Endpoint {
-        private final URI url;
-        private final Map<String, String> headers;
-
-        public Endpoint(URI url, Map<String, String> headers) {
-            this.url = url;
-            this.headers = headers;
-        }
-
-        public RequestSpecification baseRequest() {
-            return given().baseUri(this.url.toString()).headers(this.headers);
-        }
-
-        public URI getUrl() {
-            return this.url;
-        }
-    }
 }

@@ -12,56 +12,52 @@
  *
  */
 
-package org.eclipse.edc.identityhub.tests.fixtures;
+package org.eclipse.edc.identityhub.tests.fixtures.common;
 
 import org.eclipse.edc.iam.did.spi.document.Service;
+import org.eclipse.edc.identityhub.spi.authentication.ServicePrincipal;
 import org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService;
 import org.eclipse.edc.identityhub.spi.participantcontext.model.KeyDescriptor;
 import org.eclipse.edc.identityhub.spi.participantcontext.model.ParticipantManifest;
 import org.eclipse.edc.junit.extensions.EmbeddedRuntime;
 import org.eclipse.edc.spi.EdcException;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-/**
- * IssuerService end to end context used in tests extended with {@link IssuerServiceEndToEndExtension}
- */
-public class IssuerServiceEndToEndTestContext {
-
+public abstract class CommonTestContext {
     public static final String SUPER_USER = "super-user";
 
-    private final EmbeddedRuntime runtime;
-    private final IssuerServiceRuntimeConfiguration configuration;
+    protected final EmbeddedRuntime runtime;
 
-    public IssuerServiceEndToEndTestContext(EmbeddedRuntime runtime, IssuerServiceRuntimeConfiguration configuration) {
+    protected CommonTestContext(EmbeddedRuntime runtime) {
         this.runtime = runtime;
-        this.configuration = configuration;
     }
 
-    public EmbeddedRuntime getRuntime() {
-        return runtime;
+    public String createParticipant(String participantContextId) {
+        return createParticipant(participantContextId, List.of());
     }
 
-    public IssuerServiceRuntimeConfiguration.Endpoint getAdminEndpoint() {
-        return configuration.getAdminEndpoint();
+    public String createParticipant(String participantContextId, String did) {
+        return createParticipant(participantContextId, did, List.of(), true);
     }
 
-    public IssuerServiceRuntimeConfiguration.Endpoint getDcpIssuanceEndpoint() {
-        return configuration.getIssuerApiEndpoint();
+    public String createSuperUser() {
+        return createParticipant(SUPER_USER, List.of(ServicePrincipal.ROLE_ADMIN));
     }
 
-    public String createParticipantContext(String participantContextId) {
-        return createParticipantContext(participantContextId, List.of());
+    public String createParticipant(String participantContextId, List<String> roles, boolean isActive) {
+        return createParticipant(participantContextId, "did:web:" + participantContextId, roles, isActive);
     }
 
-    public String createParticipantContext(String participantContextId, List<String> roles, boolean isActive) {
+    public String createParticipant(String participantContextId, String did, List<String> roles, boolean isActive) {
         var manifest = ParticipantManifest.Builder.newInstance()
                 .participantId(participantContextId)
                 .active(isActive)
                 .roles(roles)
-                .serviceEndpoint(new Service("test-service-id", "test-type", "http://foo.bar.com"))
-                .did("did:web:" + participantContextId)
+                .serviceEndpoint(createServiceEndpoint(participantContextId))
+                .did(did)
                 .key(KeyDescriptor.Builder.newInstance()
                         .privateKeyAlias(participantContextId + "-alias")
                         .resourceId(participantContextId + "-resource")
@@ -75,9 +71,16 @@ public class IssuerServiceEndToEndTestContext {
                 .apiKey();
     }
 
+    public String createParticipant(String participantContextId, List<String> roles) {
+        return createParticipant(participantContextId, roles, true);
+    }
 
-    public String createParticipantContext(String participantContextId, List<String> roles) {
-        return createParticipantContext(participantContextId, roles, true);
+    public String base64Encode(String input) {
+        return new String(Base64.getEncoder().encode(input.getBytes()));
+    }
+
+    protected Service createServiceEndpoint(String participantContextId) {
+        return new Service("test-service-id", "test-type", "http://foo.bar.com");
     }
 
 }
