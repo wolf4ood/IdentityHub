@@ -178,6 +178,38 @@ _None_
 - `org.eclipse.edc.web.spi.WebService` (required)
 - `org.eclipse.edc.issuerservice.spi.credentials.CredentialService` (required)
 
+Module `credentials-api-configuration`
+--------------------------------------
+**Artifact:** org.eclipse.edc:credentials-api-configuration:0.12.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.identityhub.api.CredentialsApiConfigurationExtension`
+**Name:** "Storage API Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration
+
+| Key                         | Required | Type     | Default            | Pattern | Min | Max | Description                      |
+| --------------------------- | -------- | -------- | ------------------ | ------- | --- | --- | -------------------------------- |
+| `web.http.credentials.port` | `*`      | `string` | `13131`            |         |     |     | Port for credentials api context |
+| `web.http.credentials.path` | `*`      | `string` | `/api/credentials` |         |     |     | Path for credentials api context |
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.jsonld.spi.JsonLd` (required)
+- `org.eclipse.edc.spi.types.TypeManager` (required)
+- `org.eclipse.edc.spi.system.apiversion.ApiVersionService` (required)
+- `org.eclipse.edc.web.spi.configuration.PortMappingRegistry` (required)
+
 Module `dcp-identityhub-core`
 -----------------------------
 **Artifact:** org.eclipse.edc:dcp-identityhub-core:0.12.0-SNAPSHOT
@@ -241,6 +273,7 @@ _None_
 - `org.eclipse.edc.identityhub.protocols.dcp.spi.DcpHolderTokenVerifier` (required)
 - `org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
+- `org.eclipse.edc.issuerservice.spi.issuance.process.IssuanceProcessService` (required)
 
 Module `dcp-issuer-core`
 ------------------------
@@ -1219,12 +1252,7 @@ _None_
 **Overview:** No overview provided.
 
 
-### Configuration
-
-| Key                          | Required | Type     | Default             | Pattern | Min | Max | Description                       |
-| ---------------------------- | -------- | -------- | ------------------- | ------- | --- | --- | --------------------------------- |
-| `web.http.presentation.port` | `*`      | `string` | `13131`             |         |     |     | Port for presentation api context |
-| `web.http.presentation.path` | `*`      | `string` | `/api/presentation` |         |     |     | Path for presentation api context |
+### Configuration_None_
 
 #### Provided services
 _None_
@@ -1239,8 +1267,6 @@ _None_
 - `org.eclipse.edc.jsonld.spi.JsonLd` (required)
 - `org.eclipse.edc.spi.types.TypeManager` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
-- `org.eclipse.edc.spi.system.apiversion.ApiVersionService` (required)
-- `org.eclipse.edc.web.spi.configuration.PortMappingRegistry` (required)
 
 Module `storage-api`
 --------------------
@@ -1258,12 +1284,7 @@ _None_
 **Overview:** No overview provided.
 
 
-### Configuration
-
-| Key                     | Required | Type     | Default        | Pattern | Min | Max | Description                  |
-| ----------------------- | -------- | -------- | -------------- | ------- | --- | --- | ---------------------------- |
-| `web.http.storage.port` | `*`      | `string` | `14141`        |         |     |     | Port for storage api context |
-| `web.http.storage.path` | `*`      | `string` | `/api/storage` |         |     |     | Path for storage api context |
+### Configuration_None_
 
 #### Provided services
 _None_
@@ -1274,8 +1295,6 @@ _None_
 - `org.eclipse.edc.web.spi.WebService` (required)
 - `org.eclipse.edc.jsonld.spi.JsonLd` (required)
 - `org.eclipse.edc.spi.types.TypeManager` (required)
-- `org.eclipse.edc.spi.system.apiversion.ApiVersionService` (required)
-- `org.eclipse.edc.web.spi.configuration.PortMappingRegistry` (required)
 - `org.eclipse.edc.identityhub.spi.verifiablecredentials.generator.CredentialWriter` (required)
 - `org.eclipse.edc.identityhub.protocols.dcp.spi.DcpIssuerTokenVerifier` (required)
 - `org.eclipse.edc.spi.monitor.Monitor` (required)
@@ -1345,6 +1364,22 @@ Module `sts-api`
 _None_
 
 ### Extensions
+#### Class: `org.eclipse.edc.api.iam.identitytrust.sts.SecureTokenServiceApiExtension`
+**Name:** "Secure Token Service API"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsAccountService` (required)
+- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsClientTokenGeneratorService` (required)
+- `org.eclipse.edc.web.spi.WebService` (required)
+
 #### Class: `org.eclipse.edc.api.iam.identitytrust.sts.StsApiConfigurationExtension`
 **Name:** "Secure Token Service API configuration"
 
@@ -1365,22 +1400,6 @@ _None_
 - `org.eclipse.edc.web.spi.configuration.PortMappingRegistry` (required)
 - `org.eclipse.edc.spi.types.TypeManager` (required)
 - `org.eclipse.edc.spi.system.apiversion.ApiVersionService` (required)
-
-#### Class: `org.eclipse.edc.api.iam.identitytrust.sts.SecureTokenServiceApiExtension`
-**Name:** "Secure Token Service API"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsAccountService` (required)
-- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsClientTokenGeneratorService` (required)
-- `org.eclipse.edc.web.spi.WebService` (required)
 
 Module `sts-client-store-sql`
 -----------------------------
