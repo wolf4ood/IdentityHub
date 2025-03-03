@@ -15,7 +15,7 @@
 package org.eclipse.edc.identityhub.spi.authorization;
 
 import jakarta.ws.rs.core.SecurityContext;
-import org.eclipse.edc.identityhub.spi.participantcontext.model.ParticipantResource;
+import org.eclipse.edc.identityhub.spi.participantcontext.model.ContextResource;
 import org.eclipse.edc.spi.result.ServiceResult;
 
 import java.security.Principal;
@@ -30,15 +30,15 @@ public interface AuthorizationService {
      * Checks whether the principal is authorized to access a particular resource.
      *
      * @param securityContext The {@link SecurityContext} that was obtained during the authentication phase of the request. Not null.
-     * @param resourceId      The ID of the resource. The resource must be of type {@link ParticipantResource}.
+     * @param resourceId      The ID of the resource. The resource must be of type {@link ContextResource}.
      * @param resourceClass   The concrete type of the resource.
      * @return success if authorized, {@link ServiceResult#unauthorized(String)} if not authorized
      */
-    ServiceResult<Void> isAuthorized(SecurityContext securityContext, String resourceId, Class<? extends ParticipantResource> resourceClass);
+    ServiceResult<Void> isAuthorized(SecurityContext securityContext, String resourceId, Class<? extends ContextResource> resourceClass);
 
     /**
      * Register a function, that can lookup a particular resource type by ID. Typically, every resource that should be protected with
      * authorization, registers a lookup function for the type of resource.
      */
-    void addLookupFunction(Class<?> resourceClass, Function<String, ParticipantResource> checkFunction);
+    void addLookupFunction(Class<?> resourceClass, Function<String, ContextResource> checkFunction);
 }

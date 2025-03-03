@@ -15,6 +15,7 @@
 package org.eclipse.edc.identityhub.api.authorization;
 
 import jakarta.ws.rs.core.SecurityContext;
+import org.eclipse.edc.identityhub.spi.participantcontext.model.ContextResource;
 import org.eclipse.edc.identityhub.spi.participantcontext.model.ParticipantResource;
 import org.junit.jupiter.api.Test;
 
@@ -33,9 +34,9 @@ class AuthorizationServiceImplTest {
 
     @Test
     void isAuthorized_whenAuthorized() {
-        authorizationService.addLookupFunction(TestResource.class, s -> new ParticipantResource() {
+        authorizationService.addLookupFunction(TestResource.class, s -> new ContextResource() {
             @Override
-            public String getParticipantContextId() {
+            public String getContextId() {
                 return "test-id";
             }
         });
@@ -60,9 +61,9 @@ class AuthorizationServiceImplTest {
 
     @Test
     void isAuthorized_whenNotAuthorized() {
-        authorizationService.addLookupFunction(TestResource.class, s -> new ParticipantResource() {
+        authorizationService.addLookupFunction(TestResource.class, s -> new ContextResource() {
             @Override
-            public String getParticipantContextId() {
+            public String getContextId() {
                 return "another-test-id";
             }
         });
@@ -87,7 +88,11 @@ class AuthorizationServiceImplTest {
         verifyNoMoreInteractions(securityContext);
     }
 
-    private static class TestResource extends ParticipantResource {
+    private static class TestResource extends ParticipantResource implements ContextResource {
 
+        @Override
+        public String getContextId() {
+            return participantContextId;
+        }
     }
 }

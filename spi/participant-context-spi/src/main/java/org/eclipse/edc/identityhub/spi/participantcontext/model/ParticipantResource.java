@@ -20,7 +20,7 @@ import org.eclipse.edc.spi.query.QuerySpec;
 /**
  * This is the base class for all resources that are owned by a {@link ParticipantContext}.
  */
-public abstract class ParticipantResource {
+public abstract class ParticipantResource implements ContextResource {
     protected String participantContextId;
 
     public static QuerySpec.Builder queryByParticipantContextId(String participantContextId) {
@@ -32,6 +32,11 @@ public abstract class ParticipantResource {
      */
 
     public String getParticipantContextId() {
+        return participantContextId;
+    }
+
+    @Override
+    public String getContextId() {
         return participantContextId;
     }
 

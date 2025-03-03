@@ -17,7 +17,7 @@ package org.eclipse.edc.identityhub.api.authorization;
 import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.edc.identityhub.spi.authentication.ServicePrincipal;
 import org.eclipse.edc.identityhub.spi.authorization.AuthorizationService;
-import org.eclipse.edc.identityhub.spi.participantcontext.model.ParticipantResource;
+import org.eclipse.edc.identityhub.spi.participantcontext.model.ContextResource;
 import org.eclipse.edc.spi.result.ServiceResult;
 
 import java.util.HashMap;
@@ -26,10 +26,10 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class AuthorizationServiceImpl implements AuthorizationService {
-    private final Map<Class<?>, Function<String, ParticipantResource>> resourceLookupFunctions = new HashMap<>();
+    private final Map<Class<?>, Function<String, ContextResource>> resourceLookupFunctions = new HashMap<>();
 
     @Override
-    public ServiceResult<Void> isAuthorized(SecurityContext securityContext, String resourceId, Class<? extends ParticipantResource> resourceClass) {
+    public ServiceResult<Void> isAuthorized(SecurityContext securityContext, String resourceId, Class<? extends ContextResource> resourceClass) {
 
         if (securityContext.isUserInRole(ServicePrincipal.ROLE_ADMIN)) {
             return ServiceResult.success();
@@ -43,7 +43,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         var result = function.apply(resourceId);
         if (result != null) {
-            return Objects.equals(result.getParticipantContextId(), name)
+            return Objects.equals(result.getContextId(), name)
                     ? ServiceResult.success()
                     : ServiceResult.unauthorized("User '%s' is not authorized to access resource of type %s with ID '%s'.".formatted(name, resourceClass, resourceId));
         }
@@ -52,7 +52,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
-    public void addLookupFunction(Class<?> resourceClass, Function<String, ParticipantResource> lookupFunction) {
+    public void addLookupFunction(Class<?> resourceClass, Function<String, ContextResource> lookupFunction) {
         resourceLookupFunctions.put(resourceClass, lookupFunction);
     }
 }

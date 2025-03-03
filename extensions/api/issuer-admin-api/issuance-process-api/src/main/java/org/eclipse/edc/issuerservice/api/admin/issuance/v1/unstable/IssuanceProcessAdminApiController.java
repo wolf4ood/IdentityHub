@@ -26,7 +26,6 @@ import org.eclipse.edc.identityhub.api.Versions;
 import org.eclipse.edc.identityhub.spi.authorization.AuthorizationService;
 import org.eclipse.edc.issuerservice.api.admin.issuance.v1.unstable.model.IssuanceProcessDto;
 import org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcess;
-import org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcessResource;
 import org.eclipse.edc.issuerservice.spi.issuance.process.IssuanceProcessService;
 import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.web.spi.exception.InvalidRequestException;
@@ -37,7 +36,7 @@ import java.util.Collection;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextId.onEncoded;
-import static org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcessResource.filterByIssuerContextId;
+import static org.eclipse.edc.issuerservice.spi.IssuerResource.filterByIssuerContextId;
 import static org.eclipse.edc.web.spi.exception.ServiceResultHandler.exceptionMapper;
 
 @Consumes(APPLICATION_JSON)
@@ -60,7 +59,7 @@ public class IssuanceProcessAdminApiController implements IssuanceProcessAdminAp
                                                      @PathParam("issuanceProcessId") String issuanceProcessId,
                                                      @Context SecurityContext securityContext) {
 
-        authorizationService.isAuthorized(securityContext, issuanceProcessId, IssuanceProcessResource.class)
+        authorizationService.isAuthorized(securityContext, issuanceProcessId, IssuanceProcess.class)
                 .orElseThrow(exceptionMapper(IssuanceProcess.class, issuanceProcessId));
 
         var issuanceProcess = issuanceProcessService.findById(issuanceProcessId);
@@ -80,7 +79,7 @@ public class IssuanceProcessAdminApiController implements IssuanceProcessAdminAp
             return issuanceProcessService.search(spec)
                     .orElseThrow(exceptionMapper(IssuanceProcess.class, null))
                     .stream()
-                    .filter(issuanceProcess -> authorizationService.isAuthorized(securityContext, issuanceProcess.getId(), IssuanceProcessResource.class).succeeded())
+                    .filter(issuanceProcess -> authorizationService.isAuthorized(securityContext, issuanceProcess.getId(), IssuanceProcess.class).succeeded())
                     .map(IssuanceProcessDto::fromIssuanceProcess)
                     .collect(toList());
         }).orElseThrow(InvalidRequestException::new);

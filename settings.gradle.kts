@@ -32,6 +32,7 @@ include(":spi:holder-credential-request-spi")
 include(":spi:sts-spi")
 
 // IssuerService SPI modules
+include(":spi:issuerservice:issuerservice-context-spi")
 include(":spi:issuerservice:issuerservice-participant-spi")
 include(":spi:issuerservice:issuerservice-credential-spi")
 include(":spi:issuerservice:credential-revocation-spi")

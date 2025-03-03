@@ -15,6 +15,7 @@
 package org.eclipse.edc.issuerservice.spi.issuance.model;
 
 import org.eclipse.edc.iam.verifiablecredentials.spi.model.CredentialFormat;
+import org.eclipse.edc.identityhub.spi.participantcontext.model.ContextResource;
 import org.eclipse.edc.spi.entity.StatefulEntity;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ import static org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcessSt
  * If successful, an issuance process is created with claims gathered from attestations. The issuance process is then approved
  * asynchronously and generated credentials sent to the holder.
  */
-public class IssuanceProcess extends StatefulEntity<IssuanceProcess> {
+public class IssuanceProcess extends StatefulEntity<IssuanceProcess> implements ContextResource {
     private final Map<String, Object> claims = new HashMap<>();
     private final List<String> credentialDefinitions = new ArrayList<>();
     private final Map<String, CredentialFormat> credentialFormats = new HashMap<>();
@@ -144,6 +145,11 @@ public class IssuanceProcess extends StatefulEntity<IssuanceProcess> {
             throw new IllegalStateException(format("Cannot transition from state %s to %s", IssuanceProcessStates.from(state), IssuanceProcessStates.from(targetState)));
         }
         transitionTo(targetState);
+    }
+
+    @Override
+    public String getContextId() {
+        return issuerContextId;
     }
 
     public static final class Builder extends StatefulEntity.Builder<IssuanceProcess, Builder> {

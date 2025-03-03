@@ -17,7 +17,7 @@ package org.eclipse.edc.identityhub.api.configuration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.edc.identityhub.spi.authorization.AuthorizationService;
-import org.eclipse.edc.identityhub.spi.participantcontext.model.ParticipantResource;
+import org.eclipse.edc.identityhub.spi.participantcontext.model.ContextResource;
 import org.eclipse.edc.runtime.metamodel.annotation.Configuration;
 import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
@@ -101,12 +101,12 @@ public class IssuerAdminApiConfigurationExtension implements ServiceExtension {
     private static class AllowAllAuthorizationService implements AuthorizationService {
 
         @Override
-        public ServiceResult<Void> isAuthorized(SecurityContext securityContext, String resourceId, Class<? extends ParticipantResource> resourceClass) {
+        public ServiceResult<Void> isAuthorized(SecurityContext securityContext, String resourceId, Class<? extends ContextResource> resourceClass) {
             return ServiceResult.success();
         }
 
         @Override
-        public void addLookupFunction(Class<?> resourceClass, Function<String, ParticipantResource> checkFunction) {
+        public void addLookupFunction(Class<?> resourceClass, Function<String, ContextResource> checkFunction) {
 
         }
 

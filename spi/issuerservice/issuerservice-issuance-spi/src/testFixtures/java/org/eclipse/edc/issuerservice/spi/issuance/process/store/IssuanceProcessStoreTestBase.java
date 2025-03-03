@@ -35,7 +35,7 @@ import java.util.UUID;
 import static java.util.stream.IntStream.range;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcessResource.queryByIssuerContextId;
+import static org.eclipse.edc.issuerservice.spi.IssuerResource.queryByIssuerContextId;
 import static org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcessStates.APPROVED;
 import static org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcessStates.DELIVERED;
 import static org.eclipse.edc.spi.persistence.StateEntityStore.hasState;

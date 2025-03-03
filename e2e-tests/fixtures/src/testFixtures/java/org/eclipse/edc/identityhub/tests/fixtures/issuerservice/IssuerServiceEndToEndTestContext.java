@@ -26,7 +26,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static org.eclipse.edc.identityhub.tests.fixtures.common.TestFunctions.base64Encode;
-import static org.eclipse.edc.issuerservice.spi.issuance.model.IssuanceProcessResource.queryByIssuerContextId;
+import static org.eclipse.edc.issuerservice.spi.IssuerResource.queryByIssuerContextId;
 
 /**
  * IssuerService end to end context used in tests extended with {@link IssuerServiceEndToEndExtension}

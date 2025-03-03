@@ -20,6 +20,7 @@ plugins {
 
 dependencies {
     testFixturesApi(project(":spi:identity-hub-spi"))
+    testFixturesApi(project(":spi:issuerservice:issuerservice-context-spi"))
     testFixturesApi(project(":spi:issuerservice:issuerservice-issuance-spi"))
     testFixturesApi(project(":spi:keypair-spi"))
     testFixturesApi(project(":spi:holder-credential-request-spi"))
