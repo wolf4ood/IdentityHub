@@ -302,7 +302,7 @@ _None_
 - `org.eclipse.edc.token.spi.TokenValidationRulesRegistry` (required)
 - `org.eclipse.edc.token.spi.TokenValidationService` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.store.ParticipantContextStore` (required)
-- `org.eclipse.edc.issuerservice.spi.participant.store.ParticipantStore` (required)
+- `org.eclipse.edc.issuerservice.spi.holder.store.HolderStore` (required)
 - `org.eclipse.edc.iam.did.spi.resolution.DidPublicKeyResolver` (required)
 - `org.eclipse.edc.issuerservice.spi.issuance.credentialdefinition.CredentialDefinitionService` (required)
 - `org.eclipse.edc.issuerservice.spi.issuance.process.store.IssuanceProcessStore` (required)
@@ -355,6 +355,31 @@ Module `did-spi`
   - `org.eclipse.edc.identityhub.spi.did.DidDocumentPublisher`
 
 ### Extensions
+Module `holder-api`
+-------------------
+**Artifact:** org.eclipse.edc:holder-api:0.12.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.issuerservice.api.admin.holder.IssuerHolderAdminApiExtension`
+**Name:** "Issuer Service Participant Admin API Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.web.spi.WebService` (required)
+- `org.eclipse.edc.issuerservice.spi.holder.HolderService` (required)
+
 Module `holder-credential-request-store-sql`
 --------------------------------------------
 **Artifact:** org.eclipse.edc:holder-credential-request-store-sql:0.12.0-SNAPSHOT
@@ -919,7 +944,7 @@ _None_
 ### Configuration_None_
 
 #### Provided services
-- `org.eclipse.edc.issuerservice.spi.participant.store.ParticipantStore`
+- `org.eclipse.edc.issuerservice.spi.holder.store.HolderStore`
 - `org.eclipse.edc.issuerservice.spi.issuance.attestation.AttestationDefinitionStore`
 - `org.eclipse.edc.issuerservice.spi.issuance.credentialdefinition.store.CredentialDefinitionStore`
 - `org.eclipse.edc.issuerservice.spi.issuance.process.store.IssuanceProcessStore`
@@ -994,6 +1019,64 @@ _None_
 - `org.eclipse.edc.spi.types.TypeManager` (required)
 - `org.eclipse.edc.jwt.signer.spi.JwsSignerProvider` (required)
 
+Module `issuerservice-holder-store-sql`
+---------------------------------------
+**Artifact:** org.eclipse.edc:issuerservice-holder-store-sql:0.12.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.issuerservice.store.sql.holder.SqlHolderStoreExtension`
+**Name:** "IssuerService Holder SQL Store Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration
+
+| Key                               | Required | Type     | Default   | Pattern | Min | Max | Description               |
+| --------------------------------- | -------- | -------- | --------- | ------- | --- | --- | ------------------------- |
+| `edc.sql.store.holder.datasource` | `*`      | `string` | `default` |         |     |     | The datasource to be used |
+
+#### Provided services
+- `org.eclipse.edc.issuerservice.spi.holder.store.HolderStore`
+
+#### Referenced (injected) services
+- `org.eclipse.edc.transaction.datasource.spi.DataSourceRegistry` (required)
+- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
+- `org.eclipse.edc.spi.types.TypeManager` (required)
+- `org.eclipse.edc.sql.QueryExecutor` (required)
+- `org.eclipse.edc.issuerservice.store.sql.holder.HolderStoreStatements` (optional)
+- `org.eclipse.edc.sql.bootstrapper.SqlSchemaBootstrapper` (required)
+
+Module `issuerservice-holders`
+------------------------------
+**Artifact:** org.eclipse.edc:issuerservice-holders:0.12.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.issuerservice.holder.HolderServiceExtension`
+**Name:** "IssuerService Holder Service Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+- `org.eclipse.edc.issuerservice.spi.holder.HolderService`
+
+#### Referenced (injected) services
+- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
+- `org.eclipse.edc.issuerservice.spi.holder.store.HolderStore` (required)
+
 Module `issuerservice-issuance`
 -------------------------------
 **Artifact:** org.eclipse.edc:issuerservice-issuance:0.12.0-SNAPSHOT
@@ -1028,10 +1111,10 @@ _None_
 - `org.eclipse.edc.transaction.spi.TransactionContext` (required)
 - `org.eclipse.edc.issuerservice.spi.issuance.credentialdefinition.store.CredentialDefinitionStore` (required)
 - `org.eclipse.edc.issuerservice.spi.issuance.attestation.AttestationDefinitionStore` (required)
-- `org.eclipse.edc.issuerservice.spi.participant.store.ParticipantStore` (required)
+- `org.eclipse.edc.issuerservice.spi.holder.store.HolderStore` (required)
 - `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
 - `org.eclipse.edc.jwt.signer.spi.JwsSignerProvider` (required)
-- `org.eclipse.edc.issuerservice.spi.participant.ParticipantService` (required)
+- `org.eclipse.edc.issuerservice.spi.holder.HolderService` (required)
 - `java.time.Clock` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
 
@@ -1117,64 +1200,6 @@ _None_
 - `org.eclipse.edc.issuerservice.spi.issuance.rule.CredentialRuleFactoryRegistry` (required)
 - `org.eclipse.edc.issuerservice.spi.issuance.rule.CredentialRuleDefinitionValidatorRegistry` (required)
 
-Module `issuerservice-participant-store-sql`
---------------------------------------------
-**Artifact:** org.eclipse.edc:issuerservice-participant-store-sql:0.12.0-SNAPSHOT
-
-**Categories:** _None_
-
-### Extension points
-_None_
-
-### Extensions
-#### Class: `org.eclipse.edc.issuerservice.store.sql.participant.SqlParticipantStoreExtension`
-**Name:** "IssuerService Participant SQL Store Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration
-
-| Key                                    | Required | Type     | Default   | Pattern | Min | Max | Description               |
-| -------------------------------------- | -------- | -------- | --------- | ------- | --- | --- | ------------------------- |
-| `edc.sql.store.participant.datasource` | `*`      | `string` | `default` |         |     |     | The datasource to be used |
-
-#### Provided services
-- `org.eclipse.edc.issuerservice.spi.participant.store.ParticipantStore`
-
-#### Referenced (injected) services
-- `org.eclipse.edc.transaction.datasource.spi.DataSourceRegistry` (required)
-- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
-- `org.eclipse.edc.spi.types.TypeManager` (required)
-- `org.eclipse.edc.sql.QueryExecutor` (required)
-- `org.eclipse.edc.issuerservice.store.sql.participant.ParticipantStoreStatements` (optional)
-- `org.eclipse.edc.sql.bootstrapper.SqlSchemaBootstrapper` (required)
-
-Module `issuerservice-participants`
------------------------------------
-**Artifact:** org.eclipse.edc:issuerservice-participants:0.12.0-SNAPSHOT
-
-**Categories:** _None_
-
-### Extension points
-_None_
-
-### Extensions
-#### Class: `org.eclipse.edc.issuerservice.participant.ParticipantServiceExtension`
-**Name:** "IssuerService Participant Service Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-- `org.eclipse.edc.issuerservice.spi.participant.ParticipantService`
-
-#### Referenced (injected) services
-- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
-- `org.eclipse.edc.issuerservice.spi.participant.store.ParticipantStore` (required)
-
 Module `keypair-api`
 --------------------
 **Artifact:** org.eclipse.edc:keypair-api:0.12.0-SNAPSHOT
@@ -1236,31 +1261,6 @@ _None_
 - `org.eclipse.edc.identityhub.spi.did.DidWebParser` (optional)
 - `java.time.Clock` (required)
 - `org.eclipse.edc.spi.event.EventRouter` (required)
-
-Module `participant-api`
-------------------------
-**Artifact:** org.eclipse.edc:participant-api:0.12.0-SNAPSHOT
-
-**Categories:** _None_
-
-### Extension points
-_None_
-
-### Extensions
-#### Class: `org.eclipse.edc.issuerservice.api.admin.participant.IssuerParticipantAdminApiExtension`
-**Name:** "Issuer Service Participant Admin API Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.web.spi.WebService` (required)
-- `org.eclipse.edc.issuerservice.spi.participant.ParticipantService` (required)
 
 Module `participant-context-api`
 --------------------------------
@@ -1417,6 +1417,22 @@ Module `sts-api`
 _None_
 
 ### Extensions
+#### Class: `org.eclipse.edc.api.iam.identitytrust.sts.SecureTokenServiceApiExtension`
+**Name:** "Secure Token Service API"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsAccountService` (required)
+- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsClientTokenGeneratorService` (required)
+- `org.eclipse.edc.web.spi.WebService` (required)
+
 #### Class: `org.eclipse.edc.api.iam.identitytrust.sts.StsApiConfigurationExtension`
 **Name:** "Secure Token Service API configuration"
 
@@ -1437,22 +1453,6 @@ _None_
 - `org.eclipse.edc.web.spi.configuration.PortMappingRegistry` (required)
 - `org.eclipse.edc.spi.types.TypeManager` (required)
 - `org.eclipse.edc.spi.system.apiversion.ApiVersionService` (required)
-
-#### Class: `org.eclipse.edc.api.iam.identitytrust.sts.SecureTokenServiceApiExtension`
-**Name:** "Secure Token Service API"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsAccountService` (required)
-- `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsClientTokenGeneratorService` (required)
-- `org.eclipse.edc.web.spi.WebService` (required)
 
 Module `sts-client-store-sql`
 -----------------------------
