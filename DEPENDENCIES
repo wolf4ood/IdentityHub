@@ -64,6 +64,7 @@ maven/mavencentral/com.google.code.findbugs/jsr305/2.0.1, BSD-3-Clause AND CC-BY
 maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, Apache-2.0 and CC-BY-2.5, approved, #15220
 maven/mavencentral/com.google.code.gson/gson/2.10.1, Apache-2.0, approved, #6159
 maven/mavencentral/com.google.crypto.tink/tink/1.15.0, Apache-2.0, approved, clearlydefined
+maven/mavencentral/com.google.crypto.tink/tink/1.17.0, Apache-2.0, approved, #20387
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.11.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.22.0, Apache-2.0, approved, #10661
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.36.0, Apache-2.0, approved, #18702
@@ -78,6 +79,7 @@ maven/mavencentral/com.google.guava/listenablefuture/9999.0-empty-to-avoid-confl
 maven/mavencentral/com.google.j2objc/j2objc-annotations/1.3, Apache-2.0, approved, CQ21195
 maven/mavencentral/com.google.j2objc/j2objc-annotations/3.0.0, Apache-2.0, approved, #13676
 maven/mavencentral/com.google.protobuf/protobuf-java/3.25.3, BSD-3-Clause, approved, #19751
+maven/mavencentral/com.google.protobuf/protobuf-java/4.28.2, BSD-3-Clause, approved, #17196
 maven/mavencentral/com.googlecode.libphonenumber/libphonenumber/8.11.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.jayway.jsonpath/json-path/2.7.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.jcraft/jzlib/1.1.3, BSD-2-Clause, approved, CQ6218
@@ -385,17 +387,19 @@ maven/mavencentral/org.jetbrains/annotations/13.0, Apache-2.0, approved, clearly
 maven/mavencentral/org.jetbrains/annotations/17.0.0, Apache-2.0, approved, #19678
 maven/mavencentral/org.jetbrains/annotations/26.0.2, Apache-2.0, approved, #16629
 maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.12.0, EPL-2.0, approved, #19509
-maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.12.0, EPL-2.0, approved, #19514
+maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.12.1, EPL-2.0, approved, #19509
+maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.12.1, EPL-2.0, approved, #19514
 maven/mavencentral/org.junit.jupiter/junit-jupiter-params/5.12.0, EPL-2.0, approved, #19517
-maven/mavencentral/org.junit.platform/junit-platform-commons/1.12.0, EPL-2.0, approved, #19511
-maven/mavencentral/org.junit.platform/junit-platform-engine/1.12.0, EPL-2.0, approved, #19519
-maven/mavencentral/org.junit.platform/junit-platform-launcher/1.12.0, EPL-2.0, approved, #19510
-maven/mavencentral/org.junit/junit-bom/5.12.0, EPL-2.0, approved, #19546
+maven/mavencentral/org.junit.jupiter/junit-jupiter-params/5.12.1, EPL-2.0, approved, #19517
+maven/mavencentral/org.junit.platform/junit-platform-commons/1.12.1, EPL-2.0, approved, #19511
+maven/mavencentral/org.junit.platform/junit-platform-engine/1.12.1, EPL-2.0, approved, #19519
+maven/mavencentral/org.junit.platform/junit-platform-launcher/1.12.1, EPL-2.0, approved, #19510
+maven/mavencentral/org.junit/junit-bom/5.12.1, EPL-2.0, approved, #19546
 maven/mavencentral/org.jvnet.mimepull/mimepull/1.9.15, CDDL-1.1 OR GPL-2.0-only WITH Classpath-exception-2.0, approved, CQ21484
 maven/mavencentral/org.mock-server/mockserver-client-java/5.15.0, Apache-2.0 AND LGPL-3.0-only, approved, #9324
 maven/mavencentral/org.mock-server/mockserver-core/5.15.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.mock-server/mockserver-netty/5.15.0, Apache-2.0, approved, #9276
-maven/mavencentral/org.mockito/mockito-core/5.15.2, Apache-2.0 AND MIT, approved, #18189
+maven/mavencentral/org.mockito/mockito-core/5.16.1, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #19856
 maven/mavencentral/org.mockito/mockito-core/5.2.0, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7401
 maven/mavencentral/org.mozilla/rhino/1.7.7.2, MPL-2.0 AND BSD-3-Clause AND ISC, approved, CQ16320
 maven/mavencentral/org.objenesis/objenesis/3.3, Apache-2.0, approved, #19727
