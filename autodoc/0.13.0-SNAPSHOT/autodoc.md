@@ -97,6 +97,7 @@ _None_
 - `java.time.Clock` (required)
 - `org.eclipse.edc.spi.query.CriterionOperatorRegistry` (required)
 - `org.eclipse.edc.jsonld.spi.JsonLd` (required)
+- `org.eclipse.edc.jwt.validation.jti.JtiValidationStore` (required)
 
 Module `credential-definition-api`
 ----------------------------------
@@ -319,7 +320,11 @@ _None_
 **Overview:** No overview provided.
 
 
-### Configuration_None_
+### Configuration
+
+| Key                                  | Required | Type     | Default | Pattern | Min | Max | Description                                                                                  |
+| ------------------------------------ | -------- | -------- | ------- | ------- | --- | --- | -------------------------------------------------------------------------------------------- |
+| `edc.iam.accesstoken.jti.validation` | `*`      | `string` | `false` |         |     |     | Activates the JTI check: access tokens can only be used once to guard against replay attacks |
 
 #### Provided services
 - `org.eclipse.edc.identityhub.protocols.dcp.spi.DcpIssuerTokenVerifier`
@@ -328,6 +333,7 @@ _None_
 - `java.time.Clock` (required)
 - `org.eclipse.edc.token.spi.TokenValidationService` (required)
 - `org.eclipse.edc.iam.did.spi.resolution.DidPublicKeyResolver` (required)
+- `org.eclipse.edc.jwt.validation.jti.JtiValidationStore` (optional)
 
 Module `dcp-issuer-api`
 -----------------------
@@ -385,7 +391,11 @@ _None_
 **Overview:** No overview provided.
 
 
-### Configuration_None_
+### Configuration
+
+| Key                                  | Required | Type     | Default | Pattern | Min | Max | Description                                                                                  |
+| ------------------------------------ | -------- | -------- | ------- | ------- | --- | --- | -------------------------------------------------------------------------------------------- |
+| `edc.iam.accesstoken.jti.validation` | `*`      | `string` | `false` |         |     |     | Activates the JTI check: access tokens can only be used once to guard against replay attacks |
 
 #### Provided services
 - `org.eclipse.edc.identityhub.protocols.dcp.issuer.spi.DcpIssuerService`
@@ -412,6 +422,7 @@ _None_
 - `org.eclipse.edc.spi.types.TypeManager` (required)
 - `org.eclipse.edc.iam.did.spi.resolution.DidResolverRegistry` (required)
 - `org.eclipse.edc.identityhub.protocols.dcp.spi.DcpProfileRegistry` (required)
+- `org.eclipse.edc.jwt.validation.jti.JtiValidationStore` (optional)
 
 Module `did-api`
 ----------------
@@ -447,8 +458,8 @@ Module `did-spi`
 **Categories:** _None_
 
 ### Extension points
-  - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore`
   - `org.eclipse.edc.identityhub.spi.did.DidWebParser`
+  - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore`
   - `org.eclipse.edc.identityhub.spi.did.DidDocumentPublisher`
 
 ### Extensions
@@ -821,6 +832,24 @@ Module `identity-hub-participants`
 _None_
 
 ### Extensions
+#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
+**Name:** "ParticipantContext Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.identityhub.spi.did.DidDocumentService` (required)
+- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
+- `java.time.Clock` (required)
+- `org.eclipse.edc.spi.event.EventRouter` (required)
+- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
+
 #### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextExtension`
 **Name:** "ParticipantContext Extension"
 
@@ -841,24 +870,6 @@ _None_
 - `org.eclipse.edc.spi.event.EventRouter` (required)
 - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.StsAccountProvisioner` (required)
-
-#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
-**Name:** "ParticipantContext Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.identityhub.spi.did.DidDocumentService` (required)
-- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
-- `java.time.Clock` (required)
-- `org.eclipse.edc.spi.event.EventRouter` (required)
-- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
 
 Module `identityhub-api-authentication`
 ---------------------------------------
@@ -1456,10 +1467,11 @@ _None_
 
 ### Configuration
 
-| Key                        | Required | Type     | Default       | Pattern | Min | Max | Description                                     |
-| -------------------------- | -------- | -------- | ------------- | ------- | --- | --- | ----------------------------------------------- |
-| `web.http.statuslist.port` | `*`      | `string` | `9999`        |         |     |     | Port of the status list credential web endpoint |
-| `web.http.statuslist.path` | `*`      | `string` | `/statuslist` |         |     |     | Port of the status list credential web endpoint |
+| Key                               | Required | Type     | Default       | Pattern | Min | Max | Description                                          |
+| --------------------------------- | -------- | -------- | ------------- | ------- | --- | --- | ---------------------------------------------------- |
+| `web.http.statuslist.port`        | `*`      | `string` | `9999`        |         |     |     | Port of the status list credential web endpoint      |
+| `web.http.statuslist.path`        | `*`      | `string` | `/statuslist` |         |     |     | Port of the status list credential web endpoint      |
+| `edc.statuslist.callback.address` |          | `string` | ``            |         |     |     | Configures endpoint for reaching the StatusList API. |
 
 #### Provided services
 - `org.eclipse.edc.issuerservice.spi.credentials.statuslist.StatusListCredentialPublisher`
@@ -1469,7 +1481,8 @@ _None_
 - `org.eclipse.edc.web.spi.configuration.PortMappingRegistry` (required)
 - `org.eclipse.edc.spi.system.Hostname` (required)
 - `org.eclipse.edc.web.spi.WebService` (required)
-- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
+- `org.eclipse.edc.spi.monitor.Monitor` (required)
+- `org.eclipse.edc.spi.types.TypeManager` (required)
 
 Module `participant-context-api`
 --------------------------------
@@ -1741,6 +1754,31 @@ _None_
 - `org.eclipse.edc.jwt.signer.spi.JwsSignerProvider` (required)
 - `org.eclipse.edc.transaction.spi.TransactionContext` (required)
 - `org.eclipse.edc.iam.identitytrust.sts.spi.service.StsAccountService` (required)
+
+Module `test-attestations`
+--------------------------
+**Artifact:** org.eclipse.edc:test-attestations:0.13.0-SNAPSHOT
+
+**Categories:** _None_
+
+### Extension points
+_None_
+
+### Extensions
+#### Class: `org.eclipse.edc.test.e2e.tck.attestation.TckTestAttestationsExtension`
+**Name:** "TCK Test Attestations Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.issuerservice.spi.issuance.attestation.AttestationSourceFactoryRegistry` (required)
+- `org.eclipse.edc.issuerservice.spi.issuance.attestation.AttestationDefinitionValidatorRegistry` (required)
 
 Module `verifiable-credentials-api`
 -----------------------------------
