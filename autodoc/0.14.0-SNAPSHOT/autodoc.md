@@ -834,6 +834,24 @@ Module `identity-hub-participants`
 _None_
 
 ### Extensions
+#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
+**Name:** "ParticipantContext Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.identityhub.spi.did.DidDocumentService` (required)
+- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
+- `java.time.Clock` (required)
+- `org.eclipse.edc.spi.event.EventRouter` (required)
+- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
+
 #### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextExtension`
 **Name:** "ParticipantContext Extension"
 
@@ -854,24 +872,6 @@ _None_
 - `org.eclipse.edc.spi.event.EventRouter` (required)
 - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.StsAccountProvisioner` (required)
-
-#### Class: `org.eclipse.edc.identityhub.participantcontext.ParticipantContextCoordinatorExtension`
-**Name:** "ParticipantContext Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.identityhub.spi.did.DidDocumentService` (required)
-- `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
-- `java.time.Clock` (required)
-- `org.eclipse.edc.spi.event.EventRouter` (required)
-- `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
 
 Module `identityhub-api-authentication`
 ---------------------------------------
@@ -1277,39 +1277,6 @@ Module `issuerservice-issuance`
 _None_
 
 ### Extensions
-#### Class: `org.eclipse.edc.issuerservice.issuance.IssuanceCoreExtension`
-**Name:** "Issuance Core Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration
-
-| Key                                                       | Required | Type     | Default | Pattern | Min | Max | Description                                                                                       |
-| --------------------------------------------------------- | -------- | -------- | ------- | ------- | --- | --- | ------------------------------------------------------------------------------------------------- |
-| `edc.issuer.issuance.state-machine.iteration-wait-millis` | `*`      | `string` | `1000`  |         |     |     | The iteration wait time in milliseconds in the issuance process state machine. Default value 1000 |
-| `edc.issuer.issuance.state-machine.batch-size`            | `*`      | `string` | `20`    |         |     |     | The batch size in the issuance process state machine. Default value 20                            |
-| `edc.issuer.issuance.send.retry.limit`                    | `*`      | `string` | `7`     |         |     |     | How many times a specific operation must be tried before terminating the issuance with error      |
-| `edc.issuer.issuance.send.retry.base-delay.ms`            | `*`      | `string` | `1000`  |         |     |     | The base delay for the issuance retry mechanism in millisecond                                    |
-
-#### Provided services
-- `org.eclipse.edc.issuerservice.spi.issuance.process.IssuanceProcessManager`
-- `org.eclipse.edc.issuerservice.spi.issuance.process.IssuanceProcessService`
-
-#### Referenced (injected) services
-- `org.eclipse.edc.issuerservice.spi.issuance.process.store.IssuanceProcessStore` (required)
-- `org.eclipse.edc.issuerservice.spi.issuance.generator.CredentialGeneratorRegistry` (required)
-- `org.eclipse.edc.issuerservice.spi.issuance.credentialdefinition.store.CredentialDefinitionStore` (required)
-- `org.eclipse.edc.identityhub.spi.verifiablecredentials.store.CredentialStore` (required)
-- `org.eclipse.edc.spi.monitor.Monitor` (required)
-- `org.eclipse.edc.spi.telemetry.Telemetry` (required)
-- `org.eclipse.edc.spi.system.ExecutorInstrumentation` (required)
-- `org.eclipse.edc.issuerservice.spi.issuance.process.retry.IssuanceProcessRetryStrategy` (optional)
-- `org.eclipse.edc.issuerservice.spi.issuance.delivery.CredentialStorageClient` (required)
-- `java.time.Clock` (required)
-- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
-- `org.eclipse.edc.issuerservice.spi.credentials.CredentialStatusService` (required)
-
 #### Class: `org.eclipse.edc.issuerservice.issuance.IssuanceServicesExtension`
 **Name:** "IssuerService Issuance Services Extension"
 
@@ -1339,6 +1306,39 @@ _None_
 - `org.eclipse.edc.issuerservice.spi.holder.HolderService` (required)
 - `java.time.Clock` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
+
+#### Class: `org.eclipse.edc.issuerservice.issuance.IssuanceCoreExtension`
+**Name:** "Issuance Core Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration
+
+| Key                                   | Required | Type     | Default | Pattern | Min | Max | Description                                                                 |
+| ------------------------------------- | -------- | -------- | ------- | ------- | --- | --- | --------------------------------------------------------------------------- |
+| `state-machine.iteration-wait-millis` | `*`      | `string` | `1000`  |         |     |     | The iteration wait time in milliseconds in the state machine.               |
+| `state-machine.batch-size`            | `*`      | `string` | `20`    |         |     |     | The number of entities to be processed on every iteration.                  |
+| `send.retry.limit`                    | `*`      | `string` | `7`     |         |     |     | How many times a specific operation must be tried before failing with error |
+| `send.retry.base-delay.ms`            | `*`      | `string` | `1000`  |         |     |     | The base delay for the consumer negotiation retry mechanism in millisecond  |
+
+#### Provided services
+- `org.eclipse.edc.issuerservice.spi.issuance.process.IssuanceProcessManager`
+- `org.eclipse.edc.issuerservice.spi.issuance.process.IssuanceProcessService`
+
+#### Referenced (injected) services
+- `org.eclipse.edc.issuerservice.spi.issuance.process.store.IssuanceProcessStore` (required)
+- `org.eclipse.edc.issuerservice.spi.issuance.generator.CredentialGeneratorRegistry` (required)
+- `org.eclipse.edc.issuerservice.spi.issuance.credentialdefinition.store.CredentialDefinitionStore` (required)
+- `org.eclipse.edc.identityhub.spi.verifiablecredentials.store.CredentialStore` (required)
+- `org.eclipse.edc.spi.monitor.Monitor` (required)
+- `org.eclipse.edc.spi.telemetry.Telemetry` (required)
+- `org.eclipse.edc.spi.system.ExecutorInstrumentation` (required)
+- `org.eclipse.edc.issuerservice.spi.issuance.process.retry.IssuanceProcessRetryStrategy` (optional)
+- `org.eclipse.edc.issuerservice.spi.issuance.delivery.CredentialStorageClient` (required)
+- `java.time.Clock` (required)
+- `org.eclipse.edc.transaction.spi.TransactionContext` (required)
+- `org.eclipse.edc.issuerservice.spi.credentials.CredentialStatusService` (required)
 
 Module `issuerservice-issuance-rules`
 -------------------------------------
