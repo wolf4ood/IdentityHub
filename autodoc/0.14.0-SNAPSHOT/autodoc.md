@@ -460,9 +460,9 @@ Module `did-spi`
 **Categories:** _None_
 
 ### Extension points
-  - `org.eclipse.edc.identityhub.spi.did.DidDocumentPublisher`
-  - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore`
   - `org.eclipse.edc.identityhub.spi.did.DidWebParser`
+  - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore`
+  - `org.eclipse.edc.identityhub.spi.did.DidDocumentPublisher`
 
 ### Extensions
 Module `holder-api`
