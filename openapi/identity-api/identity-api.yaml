@@ -7,7 +7,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.txt
   version: 1.0.0-alpha
 servers:
-- url: http://localhost:8080
+- url: /
 paths:
   /v1alpha/credentials:
     get:
@@ -1869,6 +1869,8 @@ components:
           type: object
           additionalProperties:
             type: object
+        apiKeyAlias:
+          type: string
         did:
           type: string
         keys:
