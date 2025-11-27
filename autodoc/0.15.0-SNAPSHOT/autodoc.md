@@ -603,7 +603,7 @@ _None_
 - `org.eclipse.edc.spi.types.TypeManager` (required)
 - `org.eclipse.edc.token.spi.TokenValidationService` (required)
 - `org.eclipse.edc.token.spi.TokenValidationRulesRegistry` (required)
-- `org.eclipse.edc.spi.security.ParticipantVault` (required)
+- `org.eclipse.edc.spi.security.Vault` (required)
 - `org.eclipse.edc.keys.spi.KeyParserRegistry` (required)
 - `org.eclipse.edc.iam.decentralizedclaims.spi.verification.SignatureSuiteRegistry` (required)
 - `org.eclipse.edc.identityhub.spi.keypair.KeyPairService` (required)
@@ -787,7 +787,7 @@ _None_
 - `org.eclipse.edc.identityhub.spi.keypair.events.KeyPairObservable`
 
 #### Referenced (injected) services
-- `org.eclipse.edc.spi.security.ParticipantVault` (required)
+- `org.eclipse.edc.spi.security.Vault` (required)
 - `org.eclipse.edc.identityhub.spi.keypair.store.KeyPairResourceStore` (required)
 - `org.eclipse.edc.spi.event.EventRouter` (required)
 - `java.time.Clock` (required)
@@ -869,7 +869,7 @@ _None_
 
 #### Referenced (injected) services
 - `org.eclipse.edc.identityhub.spi.participantcontext.store.ParticipantContextStore` (required)
-- `org.eclipse.edc.spi.security.ParticipantVault` (required)
+- `org.eclipse.edc.spi.security.Vault` (required)
 - `org.eclipse.edc.transaction.spi.TransactionContext` (required)
 - `java.time.Clock` (required)
 - `org.eclipse.edc.spi.event.EventRouter` (required)
@@ -901,7 +901,7 @@ _None_
 #### Referenced (injected) services
 - `org.eclipse.edc.web.spi.WebService` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
-- `org.eclipse.edc.spi.security.ParticipantVault` (required)
+- `org.eclipse.edc.spi.security.Vault` (required)
 
 Module `identityhub-api-authorization`
 --------------------------------------
@@ -1012,7 +1012,7 @@ _None_
 #### Referenced (injected) services
 - `org.eclipse.edc.web.spi.WebService` (required)
 - `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` (required)
-- `org.eclipse.edc.spi.security.ParticipantVault` (required)
+- `org.eclipse.edc.spi.security.Vault` (required)
 
 Module `issuer-admin-api-configuration`
 ---------------------------------------
@@ -1605,7 +1605,7 @@ _None_
 
 #### Referenced (injected) services
 - `org.eclipse.edc.spi.event.EventRouter` (required)
-- `org.eclipse.edc.spi.security.ParticipantVault` (required)
+- `org.eclipse.edc.spi.security.Vault` (required)
 - `org.eclipse.edc.iam.decentralizedclaims.sts.spi.service.StsClientSecretGenerator` (optional)
 - `org.eclipse.edc.iam.decentralizedclaims.sts.spi.service.StsAccountService` (required)
 
@@ -1633,7 +1633,7 @@ _None_
 #### Referenced (injected) services
 - `org.eclipse.edc.iam.decentralizedclaims.sts.spi.store.StsAccountStore` (required)
 - `org.eclipse.edc.transaction.spi.TransactionContext` (required)
-- `org.eclipse.edc.spi.security.ParticipantVault` (required)
+- `org.eclipse.edc.spi.security.Vault` (required)
 - `org.eclipse.edc.iam.decentralizedclaims.sts.spi.service.StsClientSecretGenerator` (optional)
 
 Module `sts-api`
@@ -1646,6 +1646,22 @@ Module `sts-api`
 _None_
 
 ### Extensions
+#### Class: `org.eclipse.edc.api.iam.decentralizedclaims.sts.SecureTokenServiceApiExtension`
+**Name:** "Secure Token Service API"
+
+**Overview:** No overview provided.
+
+
+### Configuration_None_
+
+#### Provided services
+_None_
+
+#### Referenced (injected) services
+- `org.eclipse.edc.iam.decentralizedclaims.sts.spi.service.StsAccountService` (required)
+- `org.eclipse.edc.iam.decentralizedclaims.sts.spi.service.StsClientTokenGeneratorService` (required)
+- `org.eclipse.edc.web.spi.WebService` (required)
+
 #### Class: `org.eclipse.edc.api.iam.decentralizedclaims.sts.StsApiConfigurationExtension`
 **Name:** "Secure Token Service API configuration"
 
@@ -1666,22 +1682,6 @@ _None_
 - `org.eclipse.edc.web.spi.configuration.PortMappingRegistry` (required)
 - `org.eclipse.edc.spi.types.TypeManager` (required)
 - `org.eclipse.edc.spi.system.apiversion.ApiVersionService` (required)
-
-#### Class: `org.eclipse.edc.api.iam.decentralizedclaims.sts.SecureTokenServiceApiExtension`
-**Name:** "Secure Token Service API"
-
-**Overview:** No overview provided.
-
-
-### Configuration_None_
-
-#### Provided services
-_None_
-
-#### Referenced (injected) services
-- `org.eclipse.edc.iam.decentralizedclaims.sts.spi.service.StsAccountService` (required)
-- `org.eclipse.edc.iam.decentralizedclaims.sts.spi.service.StsClientTokenGeneratorService` (required)
-- `org.eclipse.edc.web.spi.WebService` (required)
 
 Module `sts-client-store-sql`
 -----------------------------
