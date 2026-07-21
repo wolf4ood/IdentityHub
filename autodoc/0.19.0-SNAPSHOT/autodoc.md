@@ -34,6 +34,27 @@ Module `common-core`
 _None_
 
 ### Extensions
+#### Class: `org.eclipse.edc.identityhub.ScopeMappingExtension`
+**Name:** "Scope Mapping Extension"
+
+**Overview:** No overview provided.
+
+
+### Configuration
+
+| Key                                          | Required | Type     | Default | Pattern | Min | Max | Description                                                                                |
+| -------------------------------------------- | -------- | -------- | ------- | ------- | --- | --- | ------------------------------------------------------------------------------------------ |
+| `edc.identityhub.scope.<alias>.pattern`      | `*`      | `string` | ``      |         |     |     | The regular expression the scope string is matched against.                                |
+| `edc.identityhub.scope.<alias>.leftoperand`  | `*`      | `string` | ``      |         |     |     | The left operand of the resulting criterion, may reference regex capture groups (e.g. $1)  |
+| `edc.identityhub.scope.<alias>.operator`     | `*`      | `string` | ``      |         |     |     | The operator of the resulting criterion, e.g. 'contains'                                   |
+| `edc.identityhub.scope.<alias>.rightoperand` | `*`      | `string` | ``      |         |     |     | The right operand of the resulting criterion, may reference regex capture groups (e.g. $1) |
+
+#### Provided services
+- `org.eclipse.edc.identityhub.spi.transformation.ScopeMappingRegistry`
+
+#### Referenced (injected) services
+_None_
+
 #### Class: `org.eclipse.edc.identityhub.DiscriminatorMappingExtension`
 **Name:** "Discriminator Mapping Extension"
 
@@ -84,27 +105,6 @@ _None_
 - `org.eclipse.edc.jwt.validation.jti.JtiValidationStore` (required)
 - `org.eclipse.edc.identityhub.spi.transformation.DiscriminatorMappingRegistry` (required)
 - `org.eclipse.edc.identityhub.spi.transformation.ScopeMappingRegistry` (required)
-
-#### Class: `org.eclipse.edc.identityhub.ScopeMappingExtension`
-**Name:** "Scope Mapping Extension"
-
-**Overview:** No overview provided.
-
-
-### Configuration
-
-| Key                                          | Required | Type     | Default | Pattern | Min | Max | Description                                                                                |
-| -------------------------------------------- | -------- | -------- | ------- | ------- | --- | --- | ------------------------------------------------------------------------------------------ |
-| `edc.identityhub.scope.<alias>.pattern`      | `*`      | `string` | ``      |         |     |     | The regular expression the scope string is matched against.                                |
-| `edc.identityhub.scope.<alias>.leftoperand`  | `*`      | `string` | ``      |         |     |     | The left operand of the resulting criterion, may reference regex capture groups (e.g. $1)  |
-| `edc.identityhub.scope.<alias>.operator`     | `*`      | `string` | ``      |         |     |     | The operator of the resulting criterion, e.g. 'contains'                                   |
-| `edc.identityhub.scope.<alias>.rightoperand` | `*`      | `string` | ``      |         |     |     | The right operand of the resulting criterion, may reference regex capture groups (e.g. $1) |
-
-#### Provided services
-- `org.eclipse.edc.identityhub.spi.transformation.ScopeMappingRegistry`
-
-#### Referenced (injected) services
-_None_
 
 Module `credential-definition-api`
 ----------------------------------
@@ -468,9 +468,9 @@ Module `did-spi`
 **Categories:** _None_
 
 ### Extension points
+  - `org.eclipse.edc.identityhub.spi.did.DidDocumentPublisher`
   - `org.eclipse.edc.identityhub.spi.did.DidWebParser`
   - `org.eclipse.edc.identityhub.spi.did.store.DidResourceStore`
-  - `org.eclipse.edc.identityhub.spi.did.DidDocumentPublisher`
 
 ### Extensions
 Module `holder-api`
