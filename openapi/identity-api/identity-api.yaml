@@ -1991,6 +1991,10 @@ components:
           type: array
           items:
             type: string
+        capabilityInvocation:
+          type: array
+          items:
+            type: string
         id:
           type: string
         service:
