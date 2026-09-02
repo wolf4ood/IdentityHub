@@ -1645,10 +1645,6 @@ components:
           type: string
         assigner:
           type: string
-        extensibleProperties:
-          type: object
-          additionalProperties:
-            type: object
         inheritsFrom:
           type: string
         obligations:
