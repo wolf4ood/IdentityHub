@@ -1,4 +1,3 @@
-maven/mavencentral/com.android.tools/r8/9.1.31, BSD-3-Clause AND (Apache-2.0 AND BSD-3-Clause AND CDDL-1.1 AND (GPL-2.0-only WITH Classpath-exception-2.0) AND LGPL-2.1-only AND MIT) AND Apache-2.0 AND MIT AND (Apache-2.0 AND BSD-3-Clause) AND GPL-1.0-or-later AND NCSA, restricted, #29718
 maven/mavencentral/com.apicatalog/carbon-did/0.3.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.apicatalog/copper-multibase/0.5.0, Apache-2.0, approved, #14501
 maven/mavencentral/com.apicatalog/copper-multicodec/0.1.1, Apache-2.0, approved, #14500
@@ -105,18 +104,19 @@ maven/mavencentral/io.rest-assured/xml-path/6.0.1, Apache-2.0, approved, #29908
 maven/mavencentral/io.setl/rdf-urdna/1.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/io.swagger.core.v3/swagger-annotations-jakarta/2.2.42, Apache-2.0, approved, #5947
 maven/mavencentral/io.swagger.core.v3/swagger-annotations-jakarta/2.2.54, Apache-2.0, approved, #5947
+maven/mavencentral/io.swagger.core.v3/swagger-annotations-jakarta/2.2.55, Apache-2.0, approved, #5947
 maven/mavencentral/io.swagger.core.v3/swagger-annotations/2.2.42, Apache-2.0, approved, #11362
 maven/mavencentral/io.swagger.core.v3/swagger-core-jakarta/2.2.42, Apache-2.0, approved, #5929
-maven/mavencentral/io.swagger.core.v3/swagger-core-jakarta/2.2.54, Apache-2.0, approved, #5929
+maven/mavencentral/io.swagger.core.v3/swagger-core-jakarta/2.2.55, Apache-2.0, approved, #5929
 maven/mavencentral/io.swagger.core.v3/swagger-core/2.2.42, Apache-2.0, approved, #9265
 maven/mavencentral/io.swagger.core.v3/swagger-integration-jakarta/2.2.42, Apache-2.0, approved, #11475
-maven/mavencentral/io.swagger.core.v3/swagger-integration-jakarta/2.2.54, Apache-2.0, approved, #11475
+maven/mavencentral/io.swagger.core.v3/swagger-integration-jakarta/2.2.55, Apache-2.0, approved, #11475
 maven/mavencentral/io.swagger.core.v3/swagger-integration/2.2.42, Apache-2.0, approved, #10352
 maven/mavencentral/io.swagger.core.v3/swagger-jaxrs2-jakarta/2.2.42, Apache-2.0, approved, #11477
-maven/mavencentral/io.swagger.core.v3/swagger-jaxrs2-jakarta/2.2.54, Apache-2.0, approved, #11477
+maven/mavencentral/io.swagger.core.v3/swagger-jaxrs2-jakarta/2.2.55, Apache-2.0, approved, #11477
 maven/mavencentral/io.swagger.core.v3/swagger-jaxrs2/2.2.42, Apache-2.0, approved, #9814
 maven/mavencentral/io.swagger.core.v3/swagger-models-jakarta/2.2.42, Apache-2.0, approved, #5919
-maven/mavencentral/io.swagger.core.v3/swagger-models-jakarta/2.2.54, Apache-2.0, approved, #5919
+maven/mavencentral/io.swagger.core.v3/swagger-models-jakarta/2.2.55, Apache-2.0, approved, #5919
 maven/mavencentral/io.swagger.core.v3/swagger-models/2.2.42, Apache-2.0, approved, #10353
 maven/mavencentral/jakarta.activation/jakarta.activation-api/1.2.2, BSD-3-Clause, approved, #8017
 maven/mavencentral/jakarta.activation/jakarta.activation-api/2.1.3, BSD-3-Clause OR EPL-2.0 OR GPL-2.0-only WITH Classpath-Exception-2.0, approved, #8015
@@ -177,9 +177,11 @@ maven/mavencentral/org.assertj/assertj-core/3.27.7, Apache-2.0, approved, #17980
 maven/mavencentral/org.awaitility/awaitility/4.2.2, Apache-2.0, approved, #14178
 maven/mavencentral/org.awaitility/awaitility/4.3.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcpkix-jdk18on/1.84, MIT, approved, #27142
+maven/mavencentral/org.bouncycastle/bcpkix-jdk18on/1.85, MIT, approved, #29746
 maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.84, MIT AND CC0-1.0, approved, #27143
+maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.85, MIT AND CC0-1.0, approved, #29747
 maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.85.2, MIT AND CC0-1.0, approved, #30066
-maven/mavencentral/org.bouncycastle/bcutil-jdk18on/1.84, MIT, approved, #27144
+maven/mavencentral/org.bouncycastle/bcutil-jdk18on/1.85, MIT, approved, #29748
 maven/mavencentral/org.ccil.cowan.tagsoup/tagsoup/1.2.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.checkerframework/checker-qual/3.52.1, MIT, approved, #26057
 maven/mavencentral/org.checkerframework/checker-qual/3.55.1, MIT, approved, #29939
@@ -357,7 +359,7 @@ maven/mavencentral/org.yaml/snakeyaml/2.3, Apache-2.0 AND (Apache-2.0 OR BSD-3-C
 maven/mavencentral/org.yaml/snakeyaml/2.4, Apache-2.0, approved, #19469
 maven/mavencentral/org.yaml/snakeyaml/2.5, Apache-2.0, approved, #23100
 maven/mavencentral/org.yaml/snakeyaml/2.6, Apache-2.0, approved, #26233
-maven/mavencentral/tools.jackson.core/jackson-core/3.2.2, BSD-2-Clause AND MIT AND (BSD-2-Clause AND BSL-1.0 AND MIT) AND Apache-2.0 AND (Apache-2.0 AND LicenseRef-scancode-free-unknown AND MIT) AND MIT AND LicenseRef-scancode-proprietary-license, restricted, #30552
+maven/mavencentral/tools.jackson.core/jackson-core/3.2.2, BSD-2-Clause AND MIT AND BSL-1.0 AND Apache-2.0, approved, #30552
 maven/mavencentral/tools.jackson.core/jackson-databind/3.2.1, Apache-2.0, approved, #30564
 maven/mavencentral/tools.jackson.core/jackson-databind/3.2.2, Apache-2.0, approved, #30563
 maven/mavencentral/tools.jackson.dataformat/jackson-dataformat-yaml/3.2.1, Apache-2.0, approved, #29717
