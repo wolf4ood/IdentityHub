@@ -5,7 +5,7 @@ info:
   license:
     name: "The Apache License, Version 2.0"
     url: http://www.apache.org/licenses/LICENSE-2.0.txt
-  version: 1.0.0
+  version: 1.1.0
 servers:
 - url: /
 paths:
@@ -1112,6 +1112,10 @@ components:
           format: int64
         participantContextId:
           type: string
+        privateProperties:
+          type: object
+          additionalProperties:
+            type: object
     QuerySpec:
       type: object
       properties:
@@ -1152,6 +1156,10 @@ components:
             type: object
         id:
           type: string
+        privateProperties:
+          type: object
+          additionalProperties:
+            type: object
     CredentialDefinitionDto:
       type: object
       properties:
@@ -1177,6 +1185,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/MappingDefinition"
+        privateProperties:
+          type: object
+          additionalProperties:
+            type: object
         rules:
           type: array
           items:
@@ -1327,6 +1339,10 @@ components:
             $ref: "#/components/schemas/MappingDefinition"
         participantContextId:
           type: string
+        privateProperties:
+          type: object
+          additionalProperties:
+            type: object
         rules:
           type: array
           items:
