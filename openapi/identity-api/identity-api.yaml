@@ -415,7 +415,8 @@ paths:
     delete:
       tags:
       - Participant Context
-      description: Delete a ParticipantContext.
+      description: "Delete a ParticipantContext. A participant can only delete its\
+        \ own ParticipantContext, deleting any other requires elevated access."
       operationId: deleteParticipant
       parameters:
       - name: participantContextId
@@ -617,8 +618,9 @@ paths:
     post:
       tags:
       - Participant Context
-      description: "Activates a ParticipantContext. This operation is idempotent,\
-        \ i.e. activating an already active ParticipantContext is a NOOP."
+      description: "Activates or deactivates a ParticipantContext. This operation\
+        \ is idempotent, i.e. activating an already active ParticipantContext is a\
+        \ NOOP. Requires elevated access."
       operationId: activateParticipant
       parameters:
       - name: participantContextId
@@ -718,7 +720,8 @@ paths:
     put:
       tags:
       - Verifiable Credentials
-      description: Update an existing VerifiableCredential.
+      description: Update an existing VerifiableCredential. The participantContextId
+        in the request body must match the one in the path.
       operationId: updateCredential
       parameters:
       - name: participantContextId
@@ -765,7 +768,8 @@ paths:
     post:
       tags:
       - Verifiable Credentials
-      description: Adds a new VerifiableCredential into the system.
+      description: Adds a new VerifiableCredential into the system. The participantContextId
+        in the request body must match the one in the path.
       operationId: addCredential
       parameters:
       - name: participantContextId
@@ -962,7 +966,9 @@ paths:
       tags:
       - Verifiable Credentials
       description: Define a scope discriminator mapping (=short-hand) for the fully-qualified
-        credential type
+        credential type. The mapping only applies to presentation queries of this
+        participant context and takes precedence over mappings defined in the runtime
+        configuration.
       operationId: addDiscriminatorMapping
       parameters:
       - name: participantContextId
@@ -981,6 +987,15 @@ paths:
           description: Discriminator mapping added successfully
         "400":
           description: "Request body was malformed, or the request could not be processed"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
+        "403":
+          description: "The request could not be completed, because either the authentication\
+            \ was missing or was not valid."
           content:
             application/json:
               schema:
